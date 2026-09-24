@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Domain\Identity\Models\MentorProfile;
+use App\Domain\Learning\Models\Category;
+use App\Domain\Learning\Models\Course;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -303,5 +305,134 @@ class DatabaseSeeder extends Seeder
             ]
         );
         $customer2->syncRoles([$customerRole]);
+
+        // 8. Seed Course Categories per 06-Database-Schema.md
+        $catSmc = Category::firstOrCreate(
+            ['type' => 'course', 'slug' => 'price-action-smc'],
+            ['name' => 'Price Action & Smart Money Concepts', 'sort_order' => 1, 'is_active' => true]
+        );
+
+        $catForex = Category::firstOrCreate(
+            ['type' => 'course', 'slug' => 'forex-mastery'],
+            ['name' => 'Forex Market Mastery', 'sort_order' => 2, 'is_active' => true]
+        );
+
+        $catGold = Category::firstOrCreate(
+            ['type' => 'course', 'slug' => 'gold-commodities'],
+            ['name' => 'Gold & Commodities Strategy', 'sort_order' => 3, 'is_active' => true]
+        );
+
+        $catCrypto = Category::firstOrCreate(
+            ['type' => 'course', 'slug' => 'crypto-derivatives'],
+            ['name' => 'Cryptocurrency Derivatives', 'sort_order' => 4, 'is_active' => true]
+        );
+
+        $catRisk = Category::firstOrCreate(
+            ['type' => 'course', 'slug' => 'psychology-risk'],
+            ['name' => 'Trading Psychology & Risk Management', 'sort_order' => 5, 'is_active' => true]
+        );
+
+        // 9. Seed Sample Courses
+        Course::updateOrCreate(
+            ['slug' => 'smart-money-concepts-mastery'],
+            [
+                'mentor_id' => $mentor1->id,
+                'category_id' => $catSmc->id,
+                'title' => 'Smart Money Concept & Liquidity Mastery',
+                'subtitle' => 'Panduan lengkap membaca jejak transaksi institusi besar dan institutional order flow.',
+                'description' => "Pelajari cara kerja pasar finansial dari perspektif bank dan institusi global. Kursus ini membahas struktur pasar, order blocks, fair value gaps, liquidity grabs, serta setup entry probabilitas tinggi dengan risiko minimal.\n\nMateri dilengkapi studi kasus nyata pada pasangan Forex utama (EURUSD, GBPUSD) dan Indeks Global.",
+                'preview_video_ref' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+                'level' => 'intermediate',
+                'language' => 'id',
+                'access_type' => 'paid',
+                'price' => 1490000,
+                'compare_at_price' => 2490000,
+                'currency' => 'IDR',
+                'is_sequential' => true,
+                'has_certificate' => true,
+                'status' => 'published',
+                'duration_seconds' => 18600,
+                'lessons_count' => 24,
+                'students_count' => 412,
+                'rating_avg' => 4.92,
+                'rating_count' => 128,
+                'published_at' => now()->subMonths(2),
+            ]
+        );
+
+        Course::updateOrCreate(
+            ['slug' => 'forex-trading-basics-beginners'],
+            [
+                'mentor_id' => $mentor1->id,
+                'category_id' => $catForex->id,
+                'title' => 'Forex Trading Basics for Beginners',
+                'subtitle' => 'Langkah awal memahami pips, lot, leverage, dan eksekusi market yang aman bagi pemula.',
+                'description' => "Kursus fundamental gratis bagi siapa saja yang ingin memulai trading forex dari nol secara profesional. Pelajari terminologi pasar, membaca chart candlestick, memilih broker teregulasi, dan kalkulasi risiko dasar.",
+                'level' => 'beginner',
+                'language' => 'id',
+                'access_type' => 'free',
+                'price' => 0,
+                'currency' => 'IDR',
+                'is_sequential' => false,
+                'has_certificate' => true,
+                'status' => 'published',
+                'duration_seconds' => 7200,
+                'lessons_count' => 12,
+                'students_count' => 1280,
+                'rating_avg' => 4.85,
+                'rating_count' => 310,
+                'published_at' => now()->subMonths(3),
+            ]
+        );
+
+        Course::updateOrCreate(
+            ['slug' => 'gold-xauusd-trading-playbook'],
+            [
+                'mentor_id' => $mentor2->id,
+                'category_id' => $catGold->id,
+                'title' => 'Gold (XAUUSD) Swing & Day Trading Playbook',
+                'subtitle' => 'Strategi momentum dan analisa fundamental makro ekonomi khusus komoditas emas.',
+                'description' => "Emas adalah salah satu instrumen paling volatil dan menguntungkan jika diperdagangkan dengan benar. Kuasai korelasi US Dollar (DXY), imbal hasil obligasi AS (US10Y), rilis data CPI/NFP, dan strategi breakout sesi London/New York.",
+                'level' => 'advanced',
+                'language' => 'id',
+                'access_type' => 'paid',
+                'price' => 1990000,
+                'compare_at_price' => 2990000,
+                'currency' => 'IDR',
+                'is_sequential' => true,
+                'has_certificate' => true,
+                'status' => 'published',
+                'duration_seconds' => 14400,
+                'lessons_count' => 18,
+                'students_count' => 256,
+                'rating_avg' => 4.95,
+                'rating_count' => 84,
+                'published_at' => now()->subMonth(),
+            ]
+        );
+
+        Course::updateOrCreate(
+            ['slug' => 'crypto-derivatives-order-flow'],
+            [
+                'mentor_id' => $mentor2->id,
+                'category_id' => $catCrypto->id,
+                'title' => 'Crypto Derivatives & Order Flow Trading',
+                'subtitle' => 'Teknik analisa volume delta, funding rates, dan likuidasi di pasar futures kripto.',
+                'description' => "Memahami data on-chain dan derivatif kripto untuk mendeteksi pergerakan whale di Bitcoin & Ethereum.",
+                'level' => 'advanced',
+                'language' => 'id',
+                'access_type' => 'subscription',
+                'price' => 0,
+                'currency' => 'IDR',
+                'is_sequential' => false,
+                'has_certificate' => true,
+                'status' => 'in_review',
+                'duration_seconds' => 10800,
+                'lessons_count' => 15,
+                'students_count' => 0,
+                'rating_avg' => 0.00,
+                'rating_count' => 0,
+            ]
+        );
     }
 }
