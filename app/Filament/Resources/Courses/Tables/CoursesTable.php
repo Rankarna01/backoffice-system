@@ -27,19 +27,26 @@ class CoursesTable
                     ->searchable(['title', 'subtitle', 'slug'])
                     ->sortable()
                     ->weight('bold')
+                    ->grow(true)
+                    ->extraHeaderAttributes(['style' => 'min-width: 380px; max-width: 550px;'])
+                    ->extraCellAttributes(['style' => 'min-width: 380px; max-width: 550px;'])
                     ->wrap(),
 
                 TextColumn::make('mentor.name')
                     ->label('Mentor')
                     ->searchable()
                     ->sortable()
-                    ->description(fn (Course $record): ?string => $record->mentor?->email),
+                    ->description(fn (Course $record): ?string => $record->mentor?->email)
+                    ->extraHeaderAttributes(['style' => 'min-width: 220px;'])
+                    ->extraCellAttributes(['style' => 'min-width: 220px;']),
 
                 TextColumn::make('category.name')
                     ->label('Kategori')
                     ->badge()
                     ->color('gray')
-                    ->sortable(),
+                    ->sortable()
+                    ->extraHeaderAttributes(['style' => 'min-width: 160px;'])
+                    ->extraCellAttributes(['style' => 'min-width: 160px;']),
 
                 TextColumn::make('level')
                     ->label('Level')
@@ -50,7 +57,9 @@ class CoursesTable
                         'advanced' => 'danger',
                         default => 'gray',
                     })
-                    ->formatStateUsing(fn (string $state): string => ucfirst($state)),
+                    ->formatStateUsing(fn (string $state): string => ucfirst($state))
+                    ->alignCenter()
+                    ->extraHeaderAttributes(['style' => 'min-width: 110px;']),
 
                 TextColumn::make('access_type')
                     ->label('Akses')
@@ -66,25 +75,31 @@ class CoursesTable
                         'paid' => 'Paid',
                         'subscription' => 'VIP Plan',
                         default => ucfirst($state),
-                    }),
+                    })
+                    ->alignCenter()
+                    ->extraHeaderAttributes(['style' => 'min-width: 110px;']),
 
                 TextColumn::make('price')
                     ->label('Harga')
                     ->money('IDR', locale: 'id')
-                    ->sortable(),
+                    ->sortable()
+                    ->extraHeaderAttributes(['style' => 'min-width: 140px;'])
+                    ->extraCellAttributes(['style' => 'min-width: 140px;']),
 
                 TextColumn::make('students_count')
                     ->label('Murid')
                     ->sortable()
                     ->alignCenter()
                     ->badge()
-                    ->color('gray'),
+                    ->color('gray')
+                    ->extraHeaderAttributes(['style' => 'min-width: 80px;']),
 
                 TextColumn::make('rating_avg')
                     ->label('Rating')
                     ->formatStateUsing(fn ($state, Course $record): string => (float) $state > 0 ? "★ {$state} ({$record->rating_count})" : '-')
                     ->sortable()
-                    ->alignCenter(),
+                    ->alignCenter()
+                    ->extraHeaderAttributes(['style' => 'min-width: 100px;']),
 
                 TextColumn::make('status')
                     ->label('Status')
@@ -104,7 +119,9 @@ class CoursesTable
                         'unpublished' => 'Unpublished',
                         'archived' => 'Archived',
                         default => ucfirst($state),
-                    }),
+                    })
+                    ->alignCenter()
+                    ->extraHeaderAttributes(['style' => 'min-width: 120px;']),
 
                 TextColumn::make('published_at')
                     ->label('Tayang')
