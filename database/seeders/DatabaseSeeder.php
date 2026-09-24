@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Domain\Identity\Models\MentorProfile;
 use App\Domain\Learning\Models\Category;
 use App\Domain\Learning\Models\Course;
+use App\Domain\Learning\Models\Module;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -333,7 +334,7 @@ class DatabaseSeeder extends Seeder
         );
 
         // 9. Seed Sample Courses
-        Course::updateOrCreate(
+        $courseSmc = Course::updateOrCreate(
             ['slug' => 'smart-money-concepts-mastery'],
             [
                 'mentor_id' => $mentor1->id,
@@ -360,7 +361,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        Course::updateOrCreate(
+        $courseForex = Course::updateOrCreate(
             ['slug' => 'forex-trading-basics-beginners'],
             [
                 'mentor_id' => $mentor1->id,
@@ -385,7 +386,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        Course::updateOrCreate(
+        $courseGold = Course::updateOrCreate(
             ['slug' => 'gold-xauusd-trading-playbook'],
             [
                 'mentor_id' => $mentor2->id,
@@ -411,7 +412,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        Course::updateOrCreate(
+        $courseCrypto = Course::updateOrCreate(
             ['slug' => 'crypto-derivatives-order-flow'],
             [
                 'mentor_id' => $mentor2->id,
@@ -434,5 +435,130 @@ class DatabaseSeeder extends Seeder
                 'rating_count' => 0,
             ]
         );
+
+        // 10. Seed Modules for Courses
+        $smcModules = [
+            [
+                'title' => 'Bab 1: Fondasi & Logika Pasar Smart Money',
+                'description' => 'Memahami institusi vs retail, mekanisme likuiditas, dan siklus akumulasi distribusi.',
+                'sort_order' => 1,
+                'is_published' => true,
+            ],
+            [
+                'title' => 'Bab 2: Market Structure, BOS, dan CHoCH',
+                'description' => 'Membaca Break of Structure (BOS), Change of Character (CHoCH), dan validasi swing high/low.',
+                'sort_order' => 2,
+                'is_published' => true,
+            ],
+            [
+                'title' => 'Bab 3: Liquidity Pools & Inducement',
+                'description' => 'Mendeteksi rekayasa likuiditas: Equal Highs/Lows, Buy-Side Liquidity (BSL), dan Sell-Side Liquidity (SSL).',
+                'sort_order' => 3,
+                'is_published' => true,
+            ],
+            [
+                'title' => 'Bab 4: Supply & Demand, Order Block, dan FVG',
+                'description' => 'Identifikasi Order Block yang belum ter-mitigasi, Imbalance, dan Fair Value Gap (FVG).',
+                'sort_order' => 4,
+                'is_published' => true,
+            ],
+            [
+                'title' => 'Bab 5: Multi-Timeframe Analysis & Sniper Entry Execution',
+                'description' => 'Sinkronisasi Daily/H4 bias ke M15/M5/M1 entry trigger dengan konfirmasi mitigasi.',
+                'sort_order' => 5,
+                'is_published' => true,
+            ],
+        ];
+
+        foreach ($smcModules as $mod) {
+            Module::updateOrCreate(
+                ['course_id' => $courseSmc->id, 'title' => $mod['title']],
+                $mod
+            );
+        }
+
+        $forexModules = [
+            [
+                'title' => 'Bab 1: Pengenalan Pasar Forex & Karakteristik Pasangan Mata Uang',
+                'description' => 'Memahami pairs major, minor, dan exotic serta karakteristik sesi London dan New York.',
+                'sort_order' => 1,
+                'is_published' => true,
+            ],
+            [
+                'title' => 'Bab 2: Kalkulasi Pip, Lot, Margin, dan Leverage',
+                'description' => 'Rumus perhitungan lot size dan penggunaan leverage yang bijak agar modal terlindungi.',
+                'sort_order' => 2,
+                'is_published' => true,
+            ],
+            [
+                'title' => 'Bab 3: Rule Manajemen Resiko 1% & Risk-Reward Ratio',
+                'description' => 'Membangun disiplin stop loss dan target profit minimum 1:2 untuk pertumbuhan portofolio.',
+                'sort_order' => 3,
+                'is_published' => true,
+            ],
+            [
+                'title' => 'Bab 4: Psikologi Trading & Jurnal Evaluasi',
+                'description' => 'Mengontrol emosi trading, menghindari overtrading, dan membuat rutinitas jurnal berkala.',
+                'sort_order' => 4,
+                'is_published' => true,
+            ],
+        ];
+
+        foreach ($forexModules as $mod) {
+            Module::updateOrCreate(
+                ['course_id' => $courseForex->id, 'title' => $mod['title']],
+                $mod
+            );
+        }
+
+        $goldModules = [
+            [
+                'title' => 'Bab 1: Karakteristik Volatilitas & Jam Trading Emas',
+                'description' => 'Memahami pergerakan XAUUSD pada sesi London Fix dan pembukaan bursa komoditas AS.',
+                'sort_order' => 1,
+                'is_published' => true,
+            ],
+            [
+                'title' => 'Bab 2: Pengaruh DXY, Yield US10Y, dan Data Inflasi CPI',
+                'description' => 'Menganalisis sentimen makro ekonomi yang menggerakkan tren harga emas dunia.',
+                'sort_order' => 2,
+                'is_published' => true,
+            ],
+            [
+                'title' => 'Bab 3: Setup Breakout & Scalping XAUUSD',
+                'description' => 'Strategi eksekusi intraday momentum dengan stop loss ketat pada time frame M5-M15.',
+                'sort_order' => 3,
+                'is_published' => true,
+            ],
+        ];
+
+        foreach ($goldModules as $mod) {
+            Module::updateOrCreate(
+                ['course_id' => $courseGold->id, 'title' => $mod['title']],
+                $mod
+            );
+        }
+
+        $cryptoModules = [
+            [
+                'title' => 'Bab 1: Pengenalan Pasar Derivatif Kripto & Perpetual Swaps',
+                'description' => 'Mekanisme kontrak perpetual, funding rate, dan likuidasi bertingkat di exchange kripto.',
+                'sort_order' => 1,
+                'is_published' => true,
+            ],
+            [
+                'title' => 'Bab 2: Analisa Order Book, Delta Volume, dan Open Interest',
+                'description' => 'Mendeteksi pergerakan whale dan perangkap likuidasi jangka pendek.',
+                'sort_order' => 2,
+                'is_published' => false,
+            ],
+        ];
+
+        foreach ($cryptoModules as $mod) {
+            Module::updateOrCreate(
+                ['course_id' => $courseCrypto->id, 'title' => $mod['title']],
+                $mod
+            );
+        }
     }
 }
