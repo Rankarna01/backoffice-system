@@ -21,8 +21,9 @@ class DatabaseSeeder extends Seeder
         // 1. Reset cached roles and permissions
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // 2. Create Permissions
+        // 2. Create Permissions per 01-Business-Flow.md & 03-Backend-Architecture.md
         $permissions = [
+            // General / Dashboard
             'view-dashboard',
             'manage-users',
             'manage-courses',
@@ -33,6 +34,58 @@ class DatabaseSeeder extends Seeder
             'access-learning',
             'access-trading-tools',
             'access-market-signals',
+
+            // User Management
+            'users.view',
+            'users.create',
+            'users.update',
+            'users.delete',
+            'mentors.manage',
+            'roles.manage',
+
+            // Learning & Courses
+            'courses.view',
+            'courses.create',
+            'courses.update',
+            'courses.delete',
+            'courses.publish',
+            'modules.manage',
+            'lessons.manage',
+            'quizzes.manage',
+            'certificates.manage',
+
+            // Market & Signals
+            'signals.view',
+            'signals.create',
+            'signals.update',
+            'signals.delete',
+            'signals.publish',
+            'market_outlooks.manage',
+            'news.manage',
+            'economic_calendar.manage',
+
+            // Community & Live Sessions
+            'discussions.manage',
+            'live_sessions.manage',
+
+            // Monetization & Sales
+            'orders.view',
+            'orders.update',
+            'orders.refund',
+            'subscriptions.manage',
+            'coupons.manage',
+            'affiliates.manage',
+
+            // Content & Website
+            'announcements.manage',
+            'reviews.manage',
+            'testimonials.manage',
+            'faqs.manage',
+            'landing_page.manage',
+
+            // System & Settings
+            'settings.view',
+            'settings.update',
         ];
 
         foreach ($permissions as $permissionName) {
@@ -54,6 +107,40 @@ class DatabaseSeeder extends Seeder
             'manage-signals',
             'manage-orders',
             'manage-community',
+            'users.view',
+            'users.create',
+            'users.update',
+            'mentors.manage',
+            'courses.view',
+            'courses.create',
+            'courses.update',
+            'courses.delete',
+            'courses.publish',
+            'modules.manage',
+            'lessons.manage',
+            'quizzes.manage',
+            'certificates.manage',
+            'signals.view',
+            'signals.create',
+            'signals.update',
+            'signals.publish',
+            'market_outlooks.manage',
+            'news.manage',
+            'economic_calendar.manage',
+            'discussions.manage',
+            'live_sessions.manage',
+            'orders.view',
+            'orders.update',
+            'orders.refund',
+            'subscriptions.manage',
+            'coupons.manage',
+            'affiliates.manage',
+            'announcements.manage',
+            'reviews.manage',
+            'testimonials.manage',
+            'faqs.manage',
+            'landing_page.manage',
+            'settings.view',
         ]);
 
         $mentorRole->syncPermissions([
@@ -61,6 +148,20 @@ class DatabaseSeeder extends Seeder
             'manage-courses',
             'manage-signals',
             'manage-community',
+            'courses.view',
+            'courses.create',
+            'courses.update',
+            'modules.manage',
+            'lessons.manage',
+            'quizzes.manage',
+            'signals.view',
+            'signals.create',
+            'signals.update',
+            'signals.publish',
+            'market_outlooks.manage',
+            'live_sessions.manage',
+            'discussions.manage',
+            'reviews.manage',
             'access-learning',
             'access-trading-tools',
             'access-market-signals',
