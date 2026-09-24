@@ -47,7 +47,7 @@ class UserManagementResourceTest extends TestCase
         $response->assertSee('64%');
 
         // Verify Middle Widgets
-        $response->assertSee('Revenue & new members', false);
+        $response->assertSee('Revenue &amp; new members', false);
         $response->assertSee('Orders by status');
         $response->assertSee('2.406');
 
