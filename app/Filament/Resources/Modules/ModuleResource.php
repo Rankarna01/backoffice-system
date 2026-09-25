@@ -57,7 +57,7 @@ class ModuleResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            \App\Filament\Resources\Modules\RelationManagers\LessonsRelationManager::class,
         ];
     }
 

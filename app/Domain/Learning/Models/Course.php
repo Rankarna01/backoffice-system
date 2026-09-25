@@ -88,6 +88,11 @@ class Course extends Model
         return $this->hasMany(Module::class)->orderBy('sort_order', 'asc');
     }
 
+    public function lessons(): HasMany
+    {
+        return $this->hasMany(Lesson::class)->orderBy('sort_order', 'asc');
+    }
+
     public function scopePublished(Builder $query): Builder
     {
         return $query->where('status', 'published');
