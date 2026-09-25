@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
             QuizSeeder::class,
             MediaAssetSeeder::class,
             SignalSeeder::class,
+            MarketOutlookSeeder::class,
         ]);
     }
 }
