@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             ModuleSeeder::class,
             LessonSeeder::class,
             QuizSeeder::class,
+            MediaAssetSeeder::class,
         ]);
     }
 }
