@@ -38,9 +38,20 @@ class ModuleResourceTest extends TestCase
         $admin = User::where('email', 'admin@tradingedu.com')->first();
         $response = $this->actingAs($admin)->get('/admin/modules/create');
         $response->assertSuccessful();
-        $response->assertSee('Informasi Modul / Bab Pembelajaran');
+        $response->assertSee('Informasi Dasar & Silabus');
+        $response->assertSee('Pengaturan & Publikasi');
         $response->assertSee('Kursus Induk');
         $response->assertSee('Judul Modul / Bab');
+    }
+
+    public function test_admin_can_access_module_create_page_with_course_query(): void
+    {
+        $admin = User::where('email', 'admin@tradingedu.com')->first();
+        $course = Course::first();
+        $response = $this->actingAs($admin)->get("/admin/modules/create?course_id={$course->id}");
+        $response->assertSuccessful();
+        $response->assertSee('Informasi Dasar & Silabus');
+        $response->assertSee('Smart Money Concept');
     }
 
     public function test_admin_can_access_module_edit_page(): void
@@ -52,6 +63,8 @@ class ModuleResourceTest extends TestCase
         $response = $this->actingAs($admin)->get("/admin/modules/{$module->id}/edit");
         $response->assertSuccessful();
         $response->assertSee($module->title);
+        $response->assertSee('Informasi Dasar & Silabus');
+        $response->assertSee('Pengaturan & Publikasi');
     }
 
     public function test_mentor_can_access_modules_resource(): void

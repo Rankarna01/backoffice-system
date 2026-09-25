@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Courses\RelationManagers;
 
 use App\Domain\Learning\Models\Module;
+use App\Filament\Resources\Modules\ModuleResource;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
@@ -14,12 +15,8 @@ use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreAction;
 use Filament\Actions\RestoreBulkAction;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
 use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -40,36 +37,7 @@ class ModulesRelationManager extends RelationManager
 
     public function form(Schema $schema): Schema
     {
-        return $schema
-            ->components([
-                TextInput::make('title')
-                    ->label('Judul Modul / Bab')
-                    ->placeholder('Contoh: Bab 1: Fondasi & Logika Pasar Smart Money')
-                    ->required()
-                    ->maxLength(255)
-                    ->columnSpanFull(),
-
-                Textarea::make('description')
-                    ->label('Tujuan & Ringkasan Bab')
-                    ->placeholder('Ringkasan topik atau capaian belajar yang dibahas pada bab ini...')
-                    ->rows(3)
-                    ->columnSpanFull(),
-
-                Grid::make(2)
-                    ->schema([
-                        TextInput::make('sort_order')
-                            ->label('Urutan Bab (Sort Order)')
-                            ->numeric()
-                            ->default(1)
-                            ->required()
-                            ->helperText('Urutan bab dalam silabus kursus.'),
-
-                        Toggle::make('is_published')
-                            ->label('Publikasikan Bab')
-                            ->default(true)
-                            ->helperText('Aktifkan agar dapat diakses peserta kursus.'),
-                    ]),
-            ]);
+        return ModuleResource::form($schema);
     }
 
     public function table(Table $table): Table
@@ -96,6 +64,7 @@ class ModulesRelationManager extends RelationManager
                     ->weight('bold')
                     ->wrap()
                     ->grow(true)
+                    ->url(fn (Module $record): string => ModuleResource::getUrl('edit', ['record' => $record]))
                     ->extraHeaderAttributes(['style' => 'min-width: 320px;'])
                     ->extraCellAttributes(['style' => 'min-width: 320px;']),
 
@@ -127,17 +96,16 @@ class ModulesRelationManager extends RelationManager
             ->headerActions([
                 CreateAction::make()
                     ->label('Tambah Bab / Modul Baru')
-                    ->mutateFormDataUsing(function (array $data): array {
-                        if (empty($data['sort_order'])) {
-                            $maxOrder = $this->getOwnerRecord()->modules()->max('sort_order') ?? 0;
-                            $data['sort_order'] = $maxOrder + 1;
-                        }
-                        return $data;
-                    }),
+                    ->url(fn (): string => ModuleResource::getUrl('create', [
+                        'course_id' => $this->getOwnerRecord()->getKey(),
+                    ]))
+                    ->modal(false),
             ])
             ->recordActions([
                 ActionGroup::make([
-                    EditAction::make(),
+                    EditAction::make()
+                        ->url(fn (Module $record): string => ModuleResource::getUrl('edit', ['record' => $record]))
+                        ->modal(false),
 
                     Action::make('toggle_publish')
                         ->label(fn (Module $record): string => $record->is_published ? 'Ubah ke Draft' : 'Publikasikan Bab')
