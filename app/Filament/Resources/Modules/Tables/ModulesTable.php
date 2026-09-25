@@ -18,6 +18,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class ModulesTable
 {
@@ -44,8 +45,8 @@ class ModulesTable
                     ->weight('bold')
                     ->grow(true)
                     ->wrap()
-                    ->extraHeaderAttributes(['style' => 'min-width: 340px; max-width: 520px;'])
-                    ->extraCellAttributes(['style' => 'min-width: 340px; max-width: 520px;']),
+                    ->extraHeaderAttributes(['style' => 'min-width: 320px; max-width: 480px;'])
+                    ->extraCellAttributes(['style' => 'min-width: 320px; max-width: 480px;']),
 
                 TextColumn::make('course.title')
                     ->label('Kursus')
@@ -54,8 +55,30 @@ class ModulesTable
                     ->badge()
                     ->color('gray')
                     ->wrap()
-                    ->extraHeaderAttributes(['style' => 'min-width: 260px; max-width: 400px;'])
-                    ->extraCellAttributes(['style' => 'min-width: 260px; max-width: 400px;']),
+                    ->extraHeaderAttributes(['style' => 'min-width: 240px; max-width: 360px;'])
+                    ->extraCellAttributes(['style' => 'min-width: 240px; max-width: 360px;']),
+
+                TextColumn::make('document_file')
+                    ->label('Dokumen / Lampiran')
+                    ->badge()
+                    ->color(fn (Module $record): string => match ($record->document_extension) {
+                        'pdf' => 'danger',
+                        'ppt', 'pptx' => 'warning',
+                        'xls', 'xlsx', 'csv' => 'success',
+                        default => 'gray',
+                    })
+                    ->icon(fn (Module $record): ?string => match ($record->document_extension) {
+                        'pdf' => 'heroicon-m-document-text',
+                        'ppt', 'pptx' => 'heroicon-m-presentation-chart-bar',
+                        'xls', 'xlsx', 'csv' => 'heroicon-m-table-cells',
+                        default => null,
+                    })
+                    ->formatStateUsing(fn ($state, Module $record): string => $record->document_type_label ? "{$record->document_type_label}" : 'Tanpa File')
+                    ->url(fn (Module $record): ?string => $record->document_url, shouldOpenInNewTab: true)
+                    ->tooltip(fn (Module $record): ?string => $record->document_file ? 'Buka dokumen ' . strtoupper($record->document_extension) . ' (bisa di-embed di frontend)' : null)
+                    ->alignCenter()
+                    ->extraHeaderAttributes(['style' => 'min-width: 140px;'])
+                    ->extraCellAttributes(['style' => 'min-width: 140px;']),
 
                 TextColumn::make('is_published')
                     ->label('Status')
@@ -78,6 +101,33 @@ class ModulesTable
                     ->relationship('course', 'title')
                     ->searchable()
                     ->preload(),
+
+                SelectFilter::make('has_document')
+                    ->label('Filter Dokumen')
+                    ->options([
+                        'pdf' => 'File PDF (Bisa di-embed)',
+                        'presentation' => 'File PowerPoint (PPT/PPTX)',
+                        'spreadsheet' => 'File Excel (XLS/XLSX/CSV)',
+                        'none' => 'Tanpa Dokumen',
+                    ])
+                    ->query(function (Builder $query, array $data) {
+                        if ($data['value'] === 'pdf') {
+                            $query->where('document_file', 'like', '%.pdf');
+                        } elseif ($data['value'] === 'presentation') {
+                            $query->where(function ($q) {
+                                $q->where('document_file', 'like', '%.ppt')
+                                    ->orWhere('document_file', 'like', '%.pptx');
+                            });
+                        } elseif ($data['value'] === 'spreadsheet') {
+                            $query->where(function ($q) {
+                                $q->where('document_file', 'like', '%.xls')
+                                    ->orWhere('document_file', 'like', '%.xlsx')
+                                    ->orWhere('document_file', 'like', '%.csv');
+                            });
+                        } elseif ($data['value'] === 'none') {
+                            $query->whereNull('document_file');
+                        }
+                    }),
 
                 SelectFilter::make('is_published')
                     ->label('Status Publikasi')

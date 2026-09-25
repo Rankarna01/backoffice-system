@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Modules\Schemas;
 
 use App\Domain\Learning\Models\Course;
 use App\Domain\Learning\Models\Module;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -62,9 +63,33 @@ class ModuleForm
                                 Textarea::make('description')
                                     ->label('Tujuan & Ringkasan Silabus Bab')
                                     ->placeholder('Jelaskan materi inti, topik-topik bahasan, dan capaian pembelajaran yang dibahas pada bab ini...')
-                                    ->rows(6)
+                                    ->rows(5)
                                     ->columnSpanFull()
                                     ->helperText('Deskripsi singkat modul yang ditampilkan pada silabus kursus bagi peserta.'),
+
+                                Section::make('Materi Dokumen Pendukung (PDF / PPT / Excel)')
+                                    ->icon('heroicon-m-document-arrow-up')
+                                    ->description('Unggah file lampiran modul yang dapat langsung di-embed atau diunduh oleh murid pada antarmuka pembelajaran.')
+                                    ->schema([
+                                        FileUpload::make('document_file')
+                                            ->label('File Materi Modul (PDF, PPT, Excel)')
+                                            ->disk('public')
+                                            ->directory('modules/documents')
+                                            ->acceptedFileTypes([
+                                                'application/pdf',
+                                                'application/vnd.ms-powerpoint',
+                                                'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+                                                'application/vnd.ms-excel',
+                                                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                                                'text/csv',
+                                            ])
+                                            ->maxSize(51200)
+                                            ->downloadable()
+                                            ->openable()
+                                            ->previewable(true)
+                                            ->helperText('Format didukung: PDF (.pdf), Presentasi PowerPoint (.ppt, .pptx), dan Lembar Kerja Excel (.xls, .xlsx, .csv). Maksimal 50MB. File PDF dapat langsung di-embed dan dibuka murid pada aplikasi frontend.')
+                                            ->columnSpanFull(),
+                                    ]),
                             ]),
 
                         // Tab 2: Pengaturan & Publikasi

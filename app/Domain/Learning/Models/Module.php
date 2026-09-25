@@ -16,8 +16,15 @@ class Module extends Model
         'course_id',
         'title',
         'description',
+        'document_file',
         'sort_order',
         'is_published',
+    ];
+
+    protected $appends = [
+        'document_url',
+        'document_extension',
+        'document_type_label',
     ];
 
     protected function casts(): array
@@ -46,5 +53,33 @@ class Module extends Model
     public function scopePublished(Builder $query): Builder
     {
         return $query->where('is_published', true);
+    }
+
+    public function getDocumentUrlAttribute(): ?string
+    {
+        if (! $this->document_file) {
+            return null;
+        }
+
+        return asset('storage/' . $this->document_file);
+    }
+
+    public function getDocumentExtensionAttribute(): ?string
+    {
+        if (! $this->document_file) {
+            return null;
+        }
+
+        return strtolower(pathinfo($this->document_file, PATHINFO_EXTENSION));
+    }
+
+    public function getDocumentTypeLabelAttribute(): ?string
+    {
+        return match ($this->document_extension) {
+            'pdf' => 'PDF',
+            'ppt', 'pptx' => 'PowerPoint',
+            'xls', 'xlsx', 'csv' => 'Excel',
+            default => $this->document_extension ? strtoupper($this->document_extension) : null,
+        };
     }
 }

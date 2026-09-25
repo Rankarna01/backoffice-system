@@ -31,6 +31,8 @@ class ModuleResourceTest extends TestCase
         $response->assertSuccessful();
         $response->assertSee('Bab 1: Fondasi & Logika Pasar Smart Money');
         $response->assertSee('Smart Money Concept & Liquidity Mastery');
+        $response->assertSee('Dokumen / Lampiran');
+        $response->assertSee('PDF');
     }
 
     public function test_admin_can_access_module_create_page(): void
@@ -42,6 +44,7 @@ class ModuleResourceTest extends TestCase
         $response->assertSee('Pengaturan & Publikasi');
         $response->assertSee('Kursus Induk');
         $response->assertSee('Judul Modul / Bab');
+        $response->assertSee('Materi Dokumen Pendukung (PDF / PPT / Excel)');
     }
 
     public function test_admin_can_access_module_create_page_with_course_query(): void
@@ -65,6 +68,7 @@ class ModuleResourceTest extends TestCase
         $response->assertSee($module->title);
         $response->assertSee('Informasi Dasar & Silabus');
         $response->assertSee('Pengaturan & Publikasi');
+        $response->assertSee('Materi Dokumen Pendukung (PDF / PPT / Excel)');
     }
 
     public function test_mentor_can_access_modules_resource(): void
@@ -94,7 +98,30 @@ class ModuleResourceTest extends TestCase
             ])
             ->assertSuccessful()
             ->assertSee('Silabus Bab & Modul Kursus')
-            ->assertSee('Bab 1: Fondasi & Logika Pasar Smart Money');
+            ->assertSee('Bab 1: Fondasi & Logika Pasar Smart Money')
+            ->assertSee('Dokumen / Lampiran');
+    }
+
+    public function test_module_document_accessors(): void
+    {
+        $module = Module::whereNotNull('document_file')->first();
+        $this->assertNotNull($module);
+        $this->assertNotNull($module->document_url);
+        $this->assertStringContainsString('storage/modules/documents/', $module->document_url);
+        $this->assertEquals('pdf', $module->document_extension);
+        $this->assertEquals('PDF', $module->document_type_label);
+
+        // Test PPT
+        $pptModule = Module::where('document_file', 'like', '%.pptx')->first();
+        $this->assertNotNull($pptModule);
+        $this->assertEquals('pptx', $pptModule->document_extension);
+        $this->assertEquals('PowerPoint', $pptModule->document_type_label);
+
+        // Test Excel
+        $excelModule = Module::where('document_file', 'like', '%.xlsx')->first();
+        $this->assertNotNull($excelModule);
+        $this->assertEquals('xlsx', $excelModule->document_extension);
+        $this->assertEquals('Excel', $excelModule->document_type_label);
     }
 
     public function test_module_soft_delete_and_restore(): void

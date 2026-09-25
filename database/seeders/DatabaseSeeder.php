@@ -441,12 +441,14 @@ class DatabaseSeeder extends Seeder
             [
                 'title' => 'Bab 1: Fondasi & Logika Pasar Smart Money',
                 'description' => 'Memahami institusi vs retail, mekanisme likuiditas, dan siklus akumulasi distribusi.',
+                'document_file' => 'modules/documents/panduan-smc-liquidity.pdf',
                 'sort_order' => 1,
                 'is_published' => true,
             ],
             [
                 'title' => 'Bab 2: Market Structure, BOS, dan CHoCH',
                 'description' => 'Membaca Break of Structure (BOS), Change of Character (CHoCH), dan validasi swing high/low.',
+                'document_file' => 'modules/documents/market-structure-presentation.pptx',
                 'sort_order' => 2,
                 'is_published' => true,
             ],
@@ -487,6 +489,7 @@ class DatabaseSeeder extends Seeder
             [
                 'title' => 'Bab 2: Kalkulasi Pip, Lot, Margin, dan Leverage',
                 'description' => 'Rumus perhitungan lot size dan penggunaan leverage yang bijak agar modal terlindungi.',
+                'document_file' => 'modules/documents/forex-lot-calculator-journal.xlsx',
                 'sort_order' => 2,
                 'is_published' => true,
             ],

@@ -68,6 +68,28 @@ class ModulesRelationManager extends RelationManager
                     ->extraHeaderAttributes(['style' => 'min-width: 320px;'])
                     ->extraCellAttributes(['style' => 'min-width: 320px;']),
 
+                TextColumn::make('document_file')
+                    ->label('Dokumen / Lampiran')
+                    ->badge()
+                    ->color(fn (Module $record): string => match ($record->document_extension) {
+                        'pdf' => 'danger',
+                        'ppt', 'pptx' => 'warning',
+                        'xls', 'xlsx', 'csv' => 'success',
+                        default => 'gray',
+                    })
+                    ->icon(fn (Module $record): ?string => match ($record->document_extension) {
+                        'pdf' => 'heroicon-m-document-text',
+                        'ppt', 'pptx' => 'heroicon-m-presentation-chart-bar',
+                        'xls', 'xlsx', 'csv' => 'heroicon-m-table-cells',
+                        default => null,
+                    })
+                    ->formatStateUsing(fn ($state, Module $record): string => $record->document_type_label ? "{$record->document_type_label}" : 'Tanpa File')
+                    ->url(fn (Module $record): ?string => $record->document_url, shouldOpenInNewTab: true)
+                    ->tooltip(fn (Module $record): ?string => $record->document_file ? 'Buka / unduh file ' . strtoupper($record->document_extension) : null)
+                    ->alignCenter()
+                    ->extraHeaderAttributes(['style' => 'min-width: 130px;'])
+                    ->extraCellAttributes(['style' => 'min-width: 130px;']),
+
                 TextColumn::make('is_published')
                     ->label('Status')
                     ->badge()
