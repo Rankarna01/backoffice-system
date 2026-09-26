@@ -64,9 +64,9 @@ class MarketNewsForm
                                         Select::make('impact_level')
                                             ->label('Tingkat Dampak Volatilitas')
                                             ->options([
-                                                'high' => 'High Impact (Volatilitas Ekstrem 🔴)',
-                                                'medium' => 'Medium Impact (Pergerakan Sedang 🟡)',
-                                                'low' => 'Low Impact (Sentimen Ringan 🟢)',
+                                                'high' => 'High Impact (Volatilitas Ekstrem)',
+                                                'medium' => 'Medium Impact (Pergerakan Sedang)',
+                                                'low' => 'Low Impact (Sentimen Ringan)',
                                             ])
                                             ->default('high')
                                             ->required()
@@ -75,9 +75,9 @@ class MarketNewsForm
                                         Select::make('sentiment')
                                             ->label('Sentimen Pasar')
                                             ->options([
-                                                'bullish' => 'Bullish (Memicu Kenaikan 🐂)',
-                                                'bearish' => 'Bearish (Memicu Penurunan 🐻)',
-                                                'neutral' => 'Neutral (Berdampak Berimbang ⚖️)',
+                                                'bullish' => 'Bullish (Memicu Kenaikan)',
+                                                'bearish' => 'Bearish (Memicu Penurunan)',
+                                                'neutral' => 'Neutral (Berdampak Berimbang)',
                                             ])
                                             ->default('neutral')
                                             ->required(),
@@ -134,12 +134,12 @@ class MarketNewsForm
                                 Grid::make(3)
                                     ->schema([
                                         Toggle::make('is_breaking')
-                                            ->label('Flash / Breaking News ⚡')
+                                            ->label('Flash / Breaking News')
                                             ->default(false)
                                             ->helperText('Kirimkan notifikasi kilat instan ke aplikasi member.'),
 
                                         Toggle::make('is_featured')
-                                            ->label('Headline Berita Utama ⭐')
+                                            ->label('Headline Berita Utama')
                                             ->default(false)
                                             ->helperText('Tampilkan di carousel slider halaman utama pasar.'),
 

@@ -20,7 +20,7 @@ class WidgetConfigsTable
             ->columns([
                 TextColumn::make('customer.name')
                     ->label('Lingkup / Target Customer')
-                    ->default('🌐 Global Default (Semua Customer)')
+                    ->default('Global Default (Semua Customer)')
                     ->badge()
                     ->color(fn (WidgetConfig $record): string => $record->customer_id ? 'primary' : 'success')
                     ->description(fn (WidgetConfig $record): ?string => $record->customer?->email)
@@ -31,7 +31,7 @@ class WidgetConfigsTable
                     ->label('Tema')
                     ->badge()
                     ->color(fn (string $state): string => $state === 'dark' ? 'gray' : 'warning')
-                    ->formatStateUsing(fn (string $state): string => $state === 'dark' ? 'Dark 🌙' : 'Light ☀️'),
+                    ->formatStateUsing(fn (string $state): string => $state === 'dark' ? 'Dark' : 'Light'),
 
                 TextColumn::make('dimensions')
                     ->label('Ukuran (W × H)')
@@ -52,9 +52,9 @@ class WidgetConfigsTable
                         default => 'success',
                     })
                     ->formatStateUsing(fn (?string $state): string => match ($state) {
-                        '1' => 'High Only 🔴',
-                        '0,1' => 'Med & High 🟡🔴',
-                        default => 'Semua Dampak 🟢🟡🔴',
+                        '1' => 'High Only',
+                        '0,1' => 'Med & High',
+                        default => 'Semua Dampak',
                     }),
 
                 TextColumn::make('currencies')
@@ -76,7 +76,7 @@ class WidgetConfigsTable
             ->recordActions([
                 Action::make('preview')
                     ->label('Preview Widget')
-                    ->icon(Heroicon::OutlinedEye)
+                    ->icon('bx-show')
                     ->color('warning')
                     ->modalHeading(fn (WidgetConfig $record): string => 'Live Preview: ' . ($record->customer_id ? "Customer: {$record->customer?->name}" : 'Global Default'))
                     ->modalContent(fn (WidgetConfig $record) => view('filament.resources.economic-calendars.preview-widget', [
@@ -87,9 +87,10 @@ class WidgetConfigsTable
                     ->modalCancelActionLabel('Tutup Preview')
                     ->modalWidth('5xl'),
 
-                EditAction::make(),
+                EditAction::make()->icon('bx-edit'),
 
                 DeleteAction::make()
+                    ->icon('bx-trash')
                     ->visible(fn (WidgetConfig $record): bool => $record->customer_id !== null),
             ]);
     }

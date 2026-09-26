@@ -65,10 +65,10 @@ class MarketOutlookForm
                                         Select::make('sentiment')
                                             ->label('Bias Sentimen Pasar')
                                             ->options([
-                                                'bullish' => 'Bullish (Tren Menguat 🐂)',
-                                                'bearish' => 'Bearish (Tren Melemah 🐻)',
-                                                'neutral' => 'Neutral (Konsolidasi / Sideways ⚖️)',
-                                                'volatile' => 'Volatile (Fluktuasi Tinggi / Dua Arah ⚡)',
+                                                'bullish' => 'Bullish (Tren Menguat)',
+                                                'bearish' => 'Bearish (Tren Melemah)',
+                                                'neutral' => 'Neutral (Konsolidasi / Sideways)',
+                                                'volatile' => 'Volatile (Fluktuasi Tinggi / Dua Arah)',
                                             ])
                                             ->default('neutral')
                                             ->required()

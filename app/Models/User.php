@@ -6,6 +6,8 @@ use App\Domain\Identity\Models\MentorProfile;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -80,5 +82,20 @@ class User extends Authenticatable implements FilamentUser
     public function mentorProfile(): HasOne
     {
         return $this->hasOne(MentorProfile::class);
+    }
+
+    public function liveSessionRegistrations(): HasMany
+    {
+        return $this->hasMany(\App\Domain\Community\Models\LiveSessionRegistration::class);
+    }
+
+    public function registeredLiveSessions(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            \App\Domain\Community\Models\LiveSession::class,
+            'live_session_registrations',
+            'user_id',
+            'live_session_id'
+        )->withPivot(['attended', 'attended_at', 'notes'])->withTimestamps();
     }
 }

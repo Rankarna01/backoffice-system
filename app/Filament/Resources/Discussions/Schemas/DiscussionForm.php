@@ -63,7 +63,7 @@ class DiscussionForm
                         ->relationship('course', 'title')
                         ->searchable()
                         ->preload()
-                        ->placeholder('🌐 Forum Komunitas Umum (Tanpa Kursus)')
+                        ->placeholder('Forum Komunitas Umum (Tanpa Kursus)')
                         ->columnSpan(1),
 
                     MarkdownEditor::make('content')
@@ -89,12 +89,12 @@ class DiscussionForm
                         ->required(),
 
                     Toggle::make('is_pinned')
-                        ->label('📌 Sematkan di Paling Atas (Sticky Pin)')
+                        ->label('Sematkan di Paling Atas (Sticky Pin)')
                         ->default(false)
                         ->helperText('Thread akan selalu muncul di urutan paling atas forum.'),
 
                     Toggle::make('is_locked')
-                        ->label('🔒 Kunci Diskusi (Tutup Komentar)')
+                        ->label('Kunci Diskusi (Tutup Komentar)')
                         ->default(false)
                         ->helperText('Member tidak dapat menambahkan balasan baru pada thread yang terkunci.'),
 

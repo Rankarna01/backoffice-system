@@ -35,7 +35,7 @@ class RepliesRelationManager extends RelationManager
                 ->columnSpanFull(),
 
             Toggle::make('is_solution')
-                ->label('Jawaban Terbaik / Solusi Mentor ✅')
+                ->label('Jawaban Terbaik / Solusi Mentor')
                 ->default(false),
 
             Toggle::make('is_hidden')
@@ -61,11 +61,11 @@ class RepliesRelationManager extends RelationManager
                     ->grow(true),
 
                 TextColumn::make('likes_count')
-                    ->label('Suka ❤️')
+                    ->label('Suka')
                     ->alignCenter(),
 
                 IconColumn::make('is_solution')
-                    ->label('Solusi ✅')
+                    ->label('Solusi')
                     ->boolean()
                     ->alignCenter(),
 
@@ -80,6 +80,7 @@ class RepliesRelationManager extends RelationManager
             ->headerActions([
                 CreateAction::make()
                     ->label('Beri Tanggapan Resmi')
+                    ->icon('bx-comment-add')
                     ->mutateFormDataUsing(function (array $data): array {
                         $data['user_id'] = auth()->id();
                         return $data;
@@ -87,8 +88,8 @@ class RepliesRelationManager extends RelationManager
             ])
             ->recordActions([
                 Action::make('toggle_solution')
-                    ->label(fn (DiscussionReply $record) => $record->is_solution ? 'Batal Solusi' : 'Tandai Solusi ✅')
-                    ->icon('heroicon-m-check-badge')
+                    ->label(fn (DiscussionReply $record) => $record->is_solution ? 'Batal Solusi' : 'Tandai Solusi')
+                    ->icon('bxs-badge-check')
                     ->color('success')
                     ->action(function (DiscussionReply $record) {
                         $record->update(['is_solution' => ! $record->is_solution]);
@@ -97,8 +98,8 @@ class RepliesRelationManager extends RelationManager
                             ->success()
                             ->send();
                     }),
-                EditAction::make(),
-                DeleteAction::make(),
+                EditAction::make()->icon('bx-edit'),
+                DeleteAction::make()->icon('bx-trash'),
             ]);
     }
 }

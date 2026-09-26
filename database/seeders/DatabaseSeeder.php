@@ -34,6 +34,7 @@ class DatabaseSeeder extends Seeder
             MarketNewsSeeder::class,
             EconomicCalendarSeeder::class,
             DiscussionSeeder::class,
+            LiveSessionSeeder::class,
         ]);
     }
 }

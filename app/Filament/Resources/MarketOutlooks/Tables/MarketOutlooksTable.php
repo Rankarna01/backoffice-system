@@ -140,10 +140,10 @@ class MarketOutlooksTable
                 SelectFilter::make('sentiment')
                     ->label('Sentimen Pasar')
                     ->options([
-                        'bullish' => 'Bullish (Naik 🐂)',
-                        'bearish' => 'Bearish (Turun 🐻)',
-                        'neutral' => 'Neutral (Sideways ⚖️)',
-                        'volatile' => 'Volatile (Fluktuatif ⚡)',
+                        'bullish' => 'Bullish (Naik)',
+                        'bearish' => 'Bearish (Turun)',
+                        'neutral' => 'Neutral (Sideways)',
+                        'volatile' => 'Volatile (Fluktuatif)',
                     ]),
 
                 SelectFilter::make('status')
@@ -165,7 +165,7 @@ class MarketOutlooksTable
                 ActionGroup::make([
                     Action::make('preview')
                         ->label('Ringkasan Cepat')
-                        ->icon('heroicon-m-eye')
+                        ->icon('bx-show')
                         ->color('info')
                         ->modalHeading(fn (MarketOutlook $record): string => "Ulasan: {$record->title}")
                         ->modalContent(function (MarketOutlook $record) {

@@ -25,9 +25,9 @@ class EditDiscussion extends EditRecord
     {
         return [
             Action::make('approve_thread')
-                ->label('Setujui Moderasi ✅')
+                ->label('Setujui Moderasi')
                 ->color('success')
-                ->icon('heroicon-m-check-badge')
+                ->icon('bx-check-circle')
                 ->visible(fn (Discussion $record): bool => $record->moderation_status !== ModerationStatus::Approved)
                 ->action(function (Discussion $record) {
                     $record->update([
@@ -39,15 +39,15 @@ class EditDiscussion extends EditRecord
                 }),
 
             Action::make('lock_thread')
-                ->label(fn (Discussion $record) => $record->is_locked ? 'Buka Kunci Thread 🔓' : 'Kunci Thread 🔒')
+                ->label(fn (Discussion $record) => $record->is_locked ? 'Buka Kunci Thread' : 'Kunci Thread')
                 ->color('warning')
-                ->icon('heroicon-m-lock-closed')
+                ->icon(fn (Discussion $record) => $record->is_locked ? 'bx-lock-open' : 'bxs-lock')
                 ->action(function (Discussion $record) {
                     $record->update(['is_locked' => ! $record->is_locked]);
                     Notification::make()->title($record->is_locked ? 'Thread telah dikunci' : 'Kunci thread dibuka')->info()->send();
                 }),
 
-            DeleteAction::make(),
+            DeleteAction::make()->icon('bx-trash'),
         ];
     }
 

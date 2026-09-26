@@ -178,8 +178,8 @@ class SignalsTable
             ->recordActions([
                 ActionGroup::make([
                     Action::make('mark_hit_tp')
-                        ->label('Update: Hit TP 🎯')
-                        ->icon('heroicon-m-check-badge')
+                        ->label('Update: Hit TP')
+                        ->icon('bx-target-lock')
                         ->color('success')
                         ->form([
                             TextInput::make('pips')
@@ -201,8 +201,8 @@ class SignalsTable
                         }),
 
                     Action::make('mark_hit_sl')
-                        ->label('Update: Hit SL ❌')
-                        ->icon('heroicon-m-x-circle')
+                        ->label('Update: Hit SL')
+                        ->icon('bx-x-circle')
                         ->color('danger')
                         ->form([
                             TextInput::make('loss_pips')

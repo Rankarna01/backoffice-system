@@ -21,22 +21,22 @@ class MarketNewsStatsWidget extends StatsOverviewWidget
         return [
             Stat::make('Total Berita Finansial', (string) $total)
                 ->description('Agregasi berita pasar global terverifikasi')
-                ->descriptionIcon('heroicon-m-newspaper')
+                ->descriptionIcon('bx-news')
                 ->color('primary'),
 
             Stat::make('Berita Berdampak Tinggi', (string) $highImpactCount)
                 ->description('Katalis volatilitas merah (High Impact)')
-                ->descriptionIcon('heroicon-m-exclamation-triangle')
+                ->descriptionIcon('bx-error-circle')
                 ->color('danger'),
 
             Stat::make('Flash / Breaking News', (string) $breakingCount)
                 ->description('Notifikasi push kilat ke member')
-                ->descriptionIcon('heroicon-m-bolt')
+                ->descriptionIcon('bxs-zap')
                 ->color('warning'),
 
-            Stat::make('Sentimen Berita', "{$bullishCount} 🐂 / {$bearishCount} 🐻")
+            Stat::make('Sentimen Berita', "{$bullishCount} Bullish / {$bearishCount} Bearish")
                 ->description('Rasio sentimen berita bullish vs bearish')
-                ->descriptionIcon('heroicon-m-scale')
+                ->descriptionIcon('bx-line-chart')
                 ->color('info'),
         ];
     }

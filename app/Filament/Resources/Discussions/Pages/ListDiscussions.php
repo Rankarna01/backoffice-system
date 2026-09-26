@@ -17,7 +17,7 @@ class ListDiscussions extends ListRecords
         return [
             CreateAction::make()
                 ->label('Buat Thread Baru')
-                ->icon(Heroicon::OutlinedPlusCircle),
+                ->icon('bx-plus-circle'),
         ];
     }
 

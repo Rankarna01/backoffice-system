@@ -56,9 +56,9 @@ class EconomicCalendarEventForm
                                 Select::make('impact_level')
                                     ->label('Tingkat Dampak Volatilitas')
                                     ->options([
-                                        'high' => 'High Impact (Volatilitas Ekstrem 🔴)',
-                                        'medium' => 'Medium Impact (Pergerakan Sedang 🟡)',
-                                        'low' => 'Low Impact (Sentimen Ringan 🟢)',
+                                        'high' => 'High Impact (Volatilitas Ekstrem)',
+                                        'medium' => 'Medium Impact (Pergerakan Sedang)',
+                                        'low' => 'Low Impact (Sentimen Ringan)',
                                     ])
                                     ->default('high')
                                     ->required(),

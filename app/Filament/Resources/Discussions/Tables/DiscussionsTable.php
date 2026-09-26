@@ -43,7 +43,7 @@ class DiscussionsTable
 
                 TextColumn::make('course.title')
                     ->label('Materi Kursus')
-                    ->default('🌐 Forum Umum')
+                    ->default('Forum Umum')
                     ->badge()
                     ->color('gray')
                     ->limit(24),
@@ -56,20 +56,20 @@ class DiscussionsTable
                     ->sortable(),
 
                 ToggleColumn::make('is_pinned')
-                    ->label('Pin 📌')
+                    ->label('Pin')
                     ->sortable(),
 
                 ToggleColumn::make('is_locked')
-                    ->label('Kunci 🔒')
+                    ->label('Kunci')
                     ->sortable(),
 
                 TextColumn::make('engagement')
                     ->label('Interaksi')
-                    ->state(fn (Discussion $record): string => "👁️ {$record->views_count} · ❤️ {$record->likes_count} · 💬 {$record->replies_count}")
+                    ->state(fn (Discussion $record): string => "{$record->views_count} views · {$record->likes_count} likes · {$record->replies_count} balasan")
                     ->color('gray'),
 
                 TextColumn::make('reports_count')
-                    ->label('Laporan 🚩')
+                    ->label('Laporan')
                     ->badge()
                     ->color(fn (int $state): string => $state > 0 ? 'danger' : 'gray')
                     ->sortable(),
@@ -92,7 +92,7 @@ class DiscussionsTable
             ->recordActions([
                 Action::make('approve')
                     ->label('Setujui')
-                    ->icon('heroicon-m-check-circle')
+                    ->icon('bx-check-circle')
                     ->color('success')
                     ->visible(fn (Discussion $record): bool => $record->moderation_status !== ModerationStatus::Approved)
                     ->action(function (Discussion $record) {
@@ -111,7 +111,7 @@ class DiscussionsTable
 
                 Action::make('reject')
                     ->label('Tolak / Sembunyikan')
-                    ->icon('heroicon-m-no-symbol')
+                    ->icon('bx-block')
                     ->color('danger')
                     ->requiresConfirmation()
                     ->visible(fn (Discussion $record): bool => $record->moderation_status !== ModerationStatus::Rejected)
@@ -128,8 +128,8 @@ class DiscussionsTable
                             ->send();
                     }),
 
-                EditAction::make(),
-                DeleteAction::make(),
+                EditAction::make()->icon('bx-edit'),
+                DeleteAction::make()->icon('bx-trash'),
             ]);
     }
 }

@@ -151,14 +151,14 @@ class MarketNewsTable
                 SelectFilter::make('sentiment')
                     ->label('Sentimen Pasar')
                     ->options([
-                        'bullish' => 'Bullish 🐂',
-                        'bearish' => 'Bearish 🐻',
-                        'neutral' => 'Neutral ⚖️',
+                        'bullish' => 'Bullish',
+                        'bearish' => 'Bearish',
+                        'neutral' => 'Neutral',
                     ]),
 
                 TernaryFilter::make('is_breaking')
                     ->label('Breaking News / Flash Alert')
-                    ->trueLabel('Hanya Breaking News ⚡')
+                    ->trueLabel('Hanya Breaking News')
                     ->falseLabel('Berita Reguler'),
 
                 SelectFilter::make('status')
@@ -175,7 +175,7 @@ class MarketNewsTable
                 ActionGroup::make([
                     Action::make('preview')
                         ->label('Pratinjau Berita')
-                        ->icon('heroicon-m-eye')
+                        ->icon('bx-show')
                         ->color('info')
                         ->modalHeading(fn (MarketNews $record): string => "Pratinjau: {$record->title}")
                         ->modalContent(fn (MarketNews $record) => new HtmlString('
@@ -191,8 +191,8 @@ class MarketNewsTable
                         ')),
 
                     Action::make('toggle_breaking')
-                        ->label(fn (MarketNews $record): string => $record->is_breaking ? 'Nonaktifkan Flash Alert' : 'Jadikan Breaking News ⚡')
-                        ->icon(fn (MarketNews $record): string => $record->is_breaking ? 'heroicon-m-bolt-slash' : 'heroicon-m-bolt')
+                        ->label(fn (MarketNews $record): string => $record->is_breaking ? 'Nonaktifkan Flash Alert' : 'Jadikan Breaking News')
+                        ->icon(fn (MarketNews $record): string => $record->is_breaking ? 'bx-bell-off' : 'bxs-zap')
                         ->color('warning')
                         ->action(function (MarketNews $record) {
                             $record->update(['is_breaking' => ! $record->is_breaking]);
@@ -204,7 +204,7 @@ class MarketNewsTable
 
                     Action::make('toggle_publish')
                         ->label(fn (MarketNews $record): string => $record->status === 'published' ? 'Ubah ke Draft' : 'Tayangkan Berita')
-                        ->icon(fn (MarketNews $record): string => $record->status === 'published' ? 'heroicon-m-eye-slash' : 'heroicon-m-check-circle')
+                        ->icon(fn (MarketNews $record): string => $record->status === 'published' ? 'bx-hide' : 'bx-check-circle')
                         ->color(fn (MarketNews $record): string => $record->status === 'published' ? 'warning' : 'success')
                         ->action(function (MarketNews $record) {
                             $newStatus = $record->status === 'published' ? 'draft' : 'published';
@@ -215,10 +215,10 @@ class MarketNewsTable
                                 ->send();
                         }),
 
-                    EditAction::make(),
-                    DeleteAction::make(),
-                    RestoreAction::make(),
-                    ForceDeleteAction::make(),
+                    EditAction::make()->icon('bx-edit'),
+                    DeleteAction::make()->icon('bx-trash'),
+                    RestoreAction::make()->icon('bx-reset'),
+                    ForceDeleteAction::make()->icon('bx-x-circle'),
                 ]),
             ])
             ->toolbarActions([

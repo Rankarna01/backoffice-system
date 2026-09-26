@@ -25,22 +25,22 @@ class DiscussionStatsWidget extends StatsOverviewWidget
         return [
             Stat::make('Total Thread Diskusi', (string) $totalThreads)
                 ->description('Forum komunitas & tanya-jawab trader')
-                ->descriptionIcon('heroicon-m-chat-bubble-left-right')
+                ->descriptionIcon('bx-conversation')
                 ->color('primary'),
 
-            Stat::make('Butuh Moderasi ⚠️', (string) $needsModerationCount)
+            Stat::make('Butuh Moderasi', (string) $needsModerationCount)
                 ->description($needsModerationCount > 0 ? 'Perlu tindakan review moderator' : 'Semua diskusi aman & disetujui')
-                ->descriptionIcon('heroicon-m-shield-exclamation')
+                ->descriptionIcon('bx-shield-quarter')
                 ->color($needsModerationCount > 0 ? 'danger' : 'success'),
 
-            Stat::make('Diskusi Disematkan 📌', (string) $pinnedCount)
+            Stat::make('Diskusi Disematkan', (string) $pinnedCount)
                 ->description('Panduan & pengumuman utama pinned')
-                ->descriptionIcon('heroicon-m-bookmark')
+                ->descriptionIcon('bxs-pin')
                 ->color('warning'),
 
             Stat::make('Total Komentar & Balasan', (string) $totalReplies)
                 ->description('Interaksi aktif member & mentor')
-                ->descriptionIcon('heroicon-m-chat-bubble-bottom-center-text')
+                ->descriptionIcon('bx-comment-detail')
                 ->color('info'),
         ];
     }

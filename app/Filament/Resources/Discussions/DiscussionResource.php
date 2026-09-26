@@ -21,7 +21,7 @@ class DiscussionResource extends Resource
 {
     protected static ?string $model = Discussion::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChatBubbleLeftRight;
+    protected static string|BackedEnum|null $navigationIcon = 'bx-chat';
 
     protected static \UnitEnum|string|null $navigationGroup = 'COMMUNITY';
 

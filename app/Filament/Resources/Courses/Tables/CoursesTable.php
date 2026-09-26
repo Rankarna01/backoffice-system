@@ -96,7 +96,9 @@ class CoursesTable
 
                 TextColumn::make('rating_avg')
                     ->label('Rating')
-                    ->formatStateUsing(fn ($state, Course $record): string => (float) $state > 0 ? "★ {$state} ({$record->rating_count})" : '-')
+                    ->icon(fn ($state) => (float) $state > 0 ? 'bxs-star' : null)
+                    ->iconColor('warning')
+                    ->formatStateUsing(fn ($state, Course $record): string => (float) $state > 0 ? "{$state} ({$record->rating_count})" : '-')
                     ->sortable()
                     ->alignCenter()
                     ->extraHeaderAttributes(['style' => 'min-width: 100px;']),

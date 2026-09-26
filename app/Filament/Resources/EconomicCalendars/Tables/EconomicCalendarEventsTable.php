@@ -115,9 +115,9 @@ class EconomicCalendarEventsTable
                 SelectFilter::make('impact_level')
                     ->label('Tingkat Dampak Volatilitas')
                     ->options([
-                        'high' => 'High Impact (Volatilitas Ekstrem 🔴)',
-                        'medium' => 'Medium Impact 🟡',
-                        'low' => 'Low Impact 🟢',
+                        'high' => 'High Impact (Volatilitas Ekstrem)',
+                        'medium' => 'Medium Impact (Sedang)',
+                        'low' => 'Low Impact (Ringan)',
                     ]),
 
                 Filter::make('today')
@@ -130,8 +130,8 @@ class EconomicCalendarEventsTable
             ])
             ->recordActions([
                 ActionGroup::make([
-                    EditAction::make(),
-                    DeleteAction::make(),
+                    EditAction::make()->icon('bx-edit'),
+                    DeleteAction::make()->icon('bx-trash'),
                 ]),
             ])
             ->toolbarActions([
