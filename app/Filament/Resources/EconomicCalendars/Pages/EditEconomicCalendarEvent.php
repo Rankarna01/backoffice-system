@@ -2,10 +2,13 @@
 
 namespace App\Filament\Resources\EconomicCalendars\Pages;
 
+use App\Domain\Market\Models\WidgetConfig;
 use App\Filament\Resources\EconomicCalendars\EconomicCalendarResource;
+use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Support\Enums\Width;
+use Filament\Support\Icons\Heroicon;
 
 class EditEconomicCalendarEvent extends EditRecord
 {
@@ -19,7 +22,19 @@ class EditEconomicCalendarEvent extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            DeleteAction::make(),
+            Action::make('preview_live')
+                ->label('👁️ Preview Widget')
+                ->icon(Heroicon::OutlinedEye)
+                ->color('warning')
+                ->modalHeading(fn (WidgetConfig $record): string => 'Live Preview: ' . ($record->customer_id ? "Customer: {$record->customer?->name}" : 'Global Default'))
+                ->modalContent(fn (WidgetConfig $record) => view('filament.resources.economic-calendars.preview-widget', [
+                    'config' => $record,
+                    'tradingViewConfig' => $record->toTradingViewConfig(),
+                ]))
+                ->modalWidth('5xl'),
+
+            DeleteAction::make()
+                ->visible(fn (WidgetConfig $record): bool => $record->customer_id !== null),
         ];
     }
 

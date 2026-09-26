@@ -2,13 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\Domain\Market\Models\EconomicCalendarConfig;
-use App\Domain\Market\Models\EconomicCalendarEvent;
+use App\Domain\Market\Models\WidgetConfig;
 use App\Models\User;
-use App\Services\FcsApiService;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
 class EconomicCalendarResourceTest extends TestCase
@@ -28,10 +25,9 @@ class EconomicCalendarResourceTest extends TestCase
 
         $response = $this->actingAs($admin)->get('/admin/economic-calendars');
         $response->assertSuccessful();
-        $response->assertSee('Non Farm Payrolls');
-        $response->assertSee('USD');
-        $response->assertSee('EUR');
-        $response->assertSee('High 🔴');
+        $response->assertSee('Economic Calendar');
+        $response->assertSee('Global Default');
+        $response->assertSee('Dark');
     }
 
     public function test_admin_can_access_economic_calendar_create_page(): void
@@ -39,20 +35,21 @@ class EconomicCalendarResourceTest extends TestCase
         $admin = User::where('email', 'admin@tradingedu.com')->first();
         $response = $this->actingAs($admin)->get('/admin/economic-calendars/create');
         $response->assertSuccessful();
-        $response->assertSee('Nama Indikator / Peristiwa Rilis');
-        $response->assertSee('Mata Uang Terdampak (Currency)');
-        $response->assertSee('Tingkat Dampak Volatilitas');
+        $response->assertSee('Tema Warna');
+        $response->assertSee('Lebar Widget');
+        $response->assertSee('Filter Tingkat Dampak');
+        $response->assertSee('Filter Mata Uang');
     }
 
     public function test_admin_can_access_economic_calendar_edit_page(): void
     {
         $admin = User::where('email', 'admin@tradingedu.com')->first();
-        $event = EconomicCalendarEvent::first();
-        $this->assertNotNull($event);
+        $config = WidgetConfig::first();
+        $this->assertNotNull($config);
 
-        $response = $this->actingAs($admin)->get("/admin/economic-calendars/{$event->id}/edit");
+        $response = $this->actingAs($admin)->get("/admin/economic-calendars/{$config->id}/edit");
         $response->assertSuccessful();
-        $response->assertSee($event->event_name);
+        $response->assertSee('Tema Warna');
     }
 
     public function test_mentor_can_access_economic_calendar_resource(): void
@@ -65,102 +62,79 @@ class EconomicCalendarResourceTest extends TestCase
         $response->assertSee('Economic Calendar');
     }
 
-    public function test_fcs_api_service_test_connection_success(): void
+    public function test_get_global_economic_calendar_config_api(): void
     {
-        Http::fake([
-            'https://api-v4.fcsapi.com/*' => Http::response([
-                'status' => true,
-                'code' => 200,
-                'msg' => 'Successfully',
-                'response' => [
-                    [
-                        'id' => '1001',
-                        'title' => 'Consumer Price Index YoY',
-                        'country' => 'US',
-                        'currency' => 'USD',
-                        'importance' => '3',
-                        'actual' => '3.1%',
-                        'forecast' => '3.1%',
-                        'previous' => '3.2%',
-                        'date' => '2026-09-26 12:30:00',
-                    ],
-                ],
-                'info' => [
-                    'credit_count' => 1,
-                    'server_time' => '2026-09-26 14:00:00 UTC',
-                ],
-            ], 200),
+        $response = $this->getJson('/api/economic-calendar-config');
+        $response->assertSuccessful();
+        $response->assertJsonStructure([
+            'colorTheme',
+            'isTransparent',
+            'width',
+            'height',
+            'locale',
+            'importanceFilter',
+            'currencyFilter',
+            'color_theme',
+            'is_transparent',
+            'importance_filter',
+            'currencies',
+            'is_active',
         ]);
 
-        /** @var FcsApiService $service */
-        $service = app(FcsApiService::class);
-        $result = $service->testConnection('AHw1wEDTk4Vqzyf3ElPTT3');
-
-        $this->assertIsArray($result);
-        $this->assertTrue($result['success']);
-        $this->assertEquals(200, $result['status_code']);
-        $this->assertEquals(1, $result['credit_count']);
-        $this->assertNotEmpty($result['sample_data']);
+        $this->assertEquals('dark', $response->json('colorTheme'));
+        $this->assertEquals('dark', $response->json('color_theme'));
+        $this->assertStringContainsString('USD', $response->json('currencyFilter'));
     }
 
-    public function test_fcs_api_service_sync_events(): void
+    public function test_get_customer_specific_economic_calendar_config_api(): void
     {
-        Http::fake([
-            'https://api-v4.fcsapi.com/*' => Http::response([
-                'status' => true,
-                'code' => 200,
-                'response' => [
-                    [
-                        'id' => '2001',
-                        'title' => 'Gross Domestic Product QoQ',
-                        'indicator' => 'GDP Growth Rate',
-                        'country' => 'US',
-                        'currency' => 'USD',
-                        'importance' => '3',
-                        'actual' => '2.8%',
-                        'forecast' => '3.0%',
-                        'previous' => '1.6%',
-                        'unit' => '%',
-                        'period' => 'Q2',
-                        'source' => 'Bureau of Economic Analysis',
-                        'date' => '2026-09-26 13:30:00',
-                    ],
-                ],
-            ], 200),
+        $student = User::where('email', 'budi@student.com')->first() ?: User::factory()->create();
+
+        // Create customer-specific override
+        WidgetConfig::create([
+            'widget_type' => 'economic_calendar',
+            'customer_id' => $student->id,
+            'color_theme' => 'light',
+            'width' => '90%',
+            'height' => '700',
+            'locale' => 'id_ID',
+            'importance_filter' => '1', // High impact only
+            'currencies' => ['USD', 'IDR'],
+            'is_active' => true,
         ]);
 
-        /** @var FcsApiService $service */
-        $service = app(FcsApiService::class);
-        $synced = $service->syncEvents();
-
-        $this->assertGreaterThan(0, $synced);
-        $this->assertDatabaseHas('economic_calendar_events', [
-            'event_name' => 'Gross Domestic Product QoQ',
-            'currency' => 'USD',
-            'impact_level' => 'high',
-        ]);
+        // Direct /api/customers/:id/economic-calendar-config endpoint
+        $response = $this->getJson("/api/customers/{$student->id}/economic-calendar-config");
+        $response->assertSuccessful();
+        $this->assertEquals('light', $response->json('colorTheme'));
+        $this->assertEquals('id_ID', $response->json('locale'));
+        $this->assertEquals('1', $response->json('importanceFilter'));
+        $this->assertEquals('USD,IDR', $response->json('currencyFilter'));
+        $this->assertEquals($student->id, $response->json('customer_id'));
     }
 
-    public function test_economic_calendar_config_model_and_key_storage(): void
+    public function test_customer_without_override_receives_global_default_config(): void
     {
-        $config = EconomicCalendarConfig::where('provider', 'fcsapi')->first();
+        $otherStudentId = 99999;
+
+        $response = $this->getJson("/api/customers/{$otherStudentId}/economic-calendar-config");
+        $response->assertSuccessful();
+        $this->assertEquals('dark', $response->json('colorTheme'));
+        $this->assertNull($response->json('customer_id'));
+    }
+
+    public function test_widget_config_model_and_trading_view_formatting(): void
+    {
+        $config = WidgetConfig::getEffectiveConfig();
         $this->assertNotNull($config);
-        $this->assertEquals('fcsapi', $config->provider);
-        $this->assertEquals('AHw1wEDTk4Vqzyf3ElPTT3', $config->api_key);
 
-        // Update key with custom user key
-        $config->update(['api_key' => 'new_custom_fcs_key_9999']);
-        $this->assertEquals('new_custom_fcs_key_9999', $config->fresh()->api_key);
-    }
-
-    public function test_economic_calendar_event_delete(): void
-    {
-        $event = EconomicCalendarEvent::first();
-        $this->assertNotNull($event);
-
-        $id = $event->id;
-        $event->delete();
-
-        $this->assertDatabaseMissing('economic_calendar_events', ['id' => $id]);
+        $tvConfig = $config->toTradingViewConfig();
+        $this->assertIsArray($tvConfig);
+        $this->assertArrayHasKey('colorTheme', $tvConfig);
+        $this->assertArrayHasKey('isTransparent', $tvConfig);
+        $this->assertArrayHasKey('width', $tvConfig);
+        $this->assertArrayHasKey('height', $tvConfig);
+        $this->assertArrayHasKey('importanceFilter', $tvConfig);
+        $this->assertArrayHasKey('currencyFilter', $tvConfig);
     }
 }

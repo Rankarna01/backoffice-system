@@ -13,12 +13,30 @@ class EconomicCalendarSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1. Seed FCS API (fcsapi.com) 1-Kolom API Configuration
+        // 1. Seed TradingView Economic Calendar Widget Configuration (Global Default)
+        \App\Domain\Market\Models\WidgetConfig::updateOrCreate(
+            [
+                'widget_type' => 'economic_calendar',
+                'customer_id' => null, // Global default for all customers
+            ],
+            [
+                'width' => '100%',
+                'height' => '650',
+                'color_theme' => 'dark',
+                'is_transparent' => false,
+                'locale' => 'en',
+                'importance_filter' => '-1,0,1',
+                'currencies' => ['USD', 'EUR', 'GBP', 'JPY', 'AUD', 'CAD', 'CHF'],
+                'is_active' => true,
+            ]
+        );
+
+        // 2. Seed FCS API (fcsapi.com) API Configuration (Optional fallback data)
         EconomicCalendarConfig::updateOrCreate(
             ['provider' => 'fcsapi'],
             [
                 'name' => 'FCS API (fcsapi.com)',
-                'api_key' => 'AHw1wEDTk4Vqzyf3ElPTT3', // User Access Key from fcsapi.com dashboard
+                'api_key' => 'AHw1wEDTk4Vqzyf3ElPTT3',
                 'base_url' => 'https://api-v4.fcsapi.com',
                 'status' => 'connected',
                 'last_tested_at' => now(),
