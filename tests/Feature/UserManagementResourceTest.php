@@ -28,8 +28,8 @@ class UserManagementResourceTest extends TestCase
         $response->assertSuccessful();
 
         // Verify fonts & styles
-        $response->assertSee('fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700', false);
-        $response->assertSee('system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif', false);
+        $response->assertSee('fonts.googleapis.com/css2?family=Geist:wght@100..900', false);
+        $response->assertSee('filament-typography.css', false);
 
         // Verify Dashboard header & actions
         $response->assertSee('Dashboard');

@@ -41,7 +41,7 @@ class MarketNewsTable
                     ->label('Judul Berita Finansial')
                     ->searchable(['title', 'summary', 'source', 'slug'])
                     ->sortable()
-                    ->weight('bold')
+                    ->weight('semibold')
                     ->wrap()
                     ->grow(true)
                     ->description(fn (MarketNews $record): ?string => $record->summary)

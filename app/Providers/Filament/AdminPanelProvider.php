@@ -34,7 +34,7 @@ class AdminPanelProvider extends PanelProvider
                 'primary' => Color::Indigo,
                 'gray' => Color::Slate,
             ])
-            ->font('Inter', 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap')
+            ->font('Geist', 'https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap')
             ->maxContentWidth(Width::Full)
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->renderHook(
@@ -42,12 +42,8 @@ class AdminPanelProvider extends PanelProvider
                 fn (): string => '
                     <link rel="preconnect" href="https://fonts.googleapis.com">
                     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-                    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-                    <style>
-                        :root, body, [class*="fi-"] {
-                            font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
-                        }
-                    </style>
+                    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+                    <link rel="stylesheet" href="/css/filament-typography.css">
                 '
             )
             ->renderHook(

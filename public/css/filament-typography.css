@@ -1,0 +1,344 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap');
+
+:root {
+    /* ==========================================================================
+       1. TYPOGRAPHY FOUNDATION (Geist Sans)
+       ========================================================================== */
+    --font-sans: 'Geist', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+    /* Typographic Scale: 11 / 12 / 13 / 14 / 16 / 28 */
+    --text-xs: 0.6875rem;   /* 11px - Badge */
+    --text-sm: 0.75rem;     /* 12px - Table Header, Label, Caption, Breadcrumb, Stat Label */
+    --text-base: 0.8125rem; /* 13px - Table Body, Sidebar Items, News Title, Description */
+    --text-md: 0.875rem;    /* 14px - Body Text, Standard UI */
+    --text-lg: 1rem;        /* 16px - Section Title */
+    --text-2xl: 1.75rem;    /* 28px - Page Title, Stat Big Number */
+
+    /* Line Height Hierarchy */
+    --leading-tight: 1.2;    /* 34px for 28px heading */
+    --leading-normal: 1.5;   /* 21px for 14px body */
+    --leading-relaxed: 1.6;
+
+    /* ==========================================================================
+       2. REFINED RADIUS SYSTEM (Anti-AI Slop Hierarchy)
+       ========================================================================== */
+    --radius-badge: 4px;     /* Badge */
+    --radius-btn: 6px;       /* Button, Input */
+    --radius-card: 8px;      /* Card, Section, Table Container */
+    --radius-modal: 10px;    /* Modal, Dialog */
+    --radius-avatar: 9999px; /* Avatar */
+
+    /* ==========================================================================
+       3. CLEAN COLOR SYSTEM (TradingEdu Foundation)
+       ========================================================================== */
+    --primary: #4F46E5;
+    --primary-foreground: #FFFFFF;
+
+    --background: #F8FAFC;
+    --foreground: #0F172A;
+
+    --card: #FFFFFF;
+    --card-foreground: #0F172A;
+
+    --muted: #64748B;
+    --muted-foreground: #94A3B8;
+
+    --border: #E2E8F0;
+
+    --success: #16A34A;
+    --warning: #D97706;
+    --danger: #DC2626;
+    --info: #2563EB;
+}
+
+/* Base Body Styles */
+html {
+    font-size: 16px;
+}
+
+body,
+.fi-body,
+.fi-sidebar,
+.fi-topbar,
+.fi-main,
+[class*="fi-"] {
+    font-family: var(--font-sans) !important;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11", "tnum" !important;
+    font-size: 14px;
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+/* ==========================================================================
+   4. PAGE TITLE & HEADER HIERARCHY
+   ========================================================================== */
+.fi-header-heading,
+.page-title {
+    font-size: 28px !important;
+    line-height: 34px !important;
+    font-weight: 650 !important;
+    letter-spacing: -0.025em !important;
+    color: #0F172A !important;
+}
+
+.dark .fi-header-heading,
+.dark .page-title {
+    color: #F8FAFC !important;
+}
+
+.fi-page-header .fi-header-subheading,
+.page-subtitle {
+    font-size: 13px !important;
+    line-height: 20px !important;
+    font-weight: 400 !important;
+    color: #64748B !important;
+}
+
+/* ==========================================================================
+   5. BREADCRUMBS
+   ========================================================================== */
+.fi-breadcrumbs,
+.fi-breadcrumbs-item-label,
+.fi-breadcrumbs-item a,
+.breadcrumb {
+    font-size: 12px !important;
+    line-height: 18px !important;
+    font-weight: 500 !important;
+    color: #64748B !important;
+}
+
+/* ==========================================================================
+   6. SECTION & CARD TITLES
+   ========================================================================== */
+.fi-section-header-heading,
+.fi-card-header-heading,
+.fi-ta-header-heading,
+.section-title {
+    font-size: 16px !important;
+    line-height: 24px !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.01em !important;
+}
+
+.fi-section-header-description,
+.fi-card-header-description {
+    font-size: 12px !important;
+    line-height: 18px !important;
+    font-weight: 400 !important;
+    color: #64748B !important;
+}
+
+/* ==========================================================================
+   7. STATISTIC CARDS (Focal Numbers)
+   ========================================================================== */
+.fi-wi-stats-overview-stat-value,
+.stat-value {
+    font-size: 28px !important;
+    line-height: 34px !important;
+    font-weight: 650 !important;
+    letter-spacing: -0.025em !important;
+    font-feature-settings: "tnum" 1 !important;
+}
+
+.fi-wi-stats-overview-stat-label,
+.stat-label {
+    font-size: 12px !important;
+    line-height: 18px !important;
+    font-weight: 500 !important;
+    color: #64748B !important;
+}
+
+.fi-wi-stats-overview-stat-description,
+.stat-description {
+    font-size: 12px !important;
+    line-height: 18px !important;
+    font-weight: 400 !important;
+    color: #64748B !important;
+}
+
+/* ==========================================================================
+   8. SIDEBAR (Navigation Groups & Items)
+   ========================================================================== */
+.fi-sidebar-group-label,
+.fi-sidebar-group-label span,
+.sidebar-section {
+    font-size: 12px !important;
+    line-height: 18px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.02em !important;
+    text-transform: uppercase !important;
+    color: #64748B !important;
+}
+
+.fi-sidebar-item-button,
+.fi-sidebar-item-label,
+.sidebar-item {
+    font-size: 13px !important;
+    line-height: 20px !important;
+    font-weight: 450 !important;
+}
+
+.fi-sidebar-item-button.fi-active,
+.fi-sidebar-item-button[aria-current="page"] {
+    font-weight: 550 !important;
+}
+
+/* ==========================================================================
+   9. TABLES (The Core of Trading & Data Dashboards)
+   ========================================================================== */
+/* Table Header */
+.fi-ta-header-cell,
+.fi-ta-header-cell-label,
+.table-header,
+thead th {
+    font-size: 12px !important;
+    line-height: 18px !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.005em !important;
+    color: #64748B !important;
+}
+
+/* Table Body Cells */
+.fi-ta-cell,
+.fi-ta-text-item,
+.table-body,
+tbody td {
+    font-size: 13px !important;
+    line-height: 20px !important;
+    font-weight: 400 !important;
+    letter-spacing: -0.005em !important;
+}
+
+/* News & Record Titles inside Tables */
+.news-title,
+.fi-ta-text-item-label,
+.fi-ta-col-title .fi-ta-text-item {
+    font-size: 13px !important;
+    line-height: 20px !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.005em !important;
+}
+
+/* Secondary Descriptions inside Table Cells */
+.news-description,
+.fi-ta-text-item-description,
+.fi-ta-cell-description {
+    font-size: 13px !important;
+    line-height: 20px !important;
+    font-weight: 400 !important;
+    color: #64748B !important;
+}
+
+/* Tabular Numbers for Data in Tables (Prices, Rates, Latency) */
+.fi-ta-cell-text,
+.fi-ta-text-item,
+[class*="tabular-nums"] {
+    font-feature-settings: "tnum" 1 !important;
+}
+
+/* ==========================================================================
+   10. FORMS & LABELS & HELPER TEXT
+   ========================================================================== */
+.fi-fo-field-wrp-label,
+label.fi-fo-field-wrp-label,
+.form-label,
+.label {
+    font-size: 12px !important;
+    line-height: 18px !important;
+    font-weight: 500 !important;
+    color: #334155 !important;
+}
+
+.dark .fi-fo-field-wrp-label,
+.dark label.fi-fo-field-wrp-label {
+    color: #CBD5E1 !important;
+}
+
+.fi-fo-field-wrp-helper-text,
+.caption,
+.helper-text {
+    font-size: 12px !important;
+    line-height: 18px !important;
+    font-weight: 400 !important;
+    color: #64748B !important;
+}
+
+/* Form Inputs & Selects */
+.fi-input,
+.fi-select-input,
+.fi-fo-text-input input,
+.fi-fo-select select {
+    font-size: 13px !important;
+    line-height: 20px !important;
+    border-radius: var(--radius-btn) !important;
+}
+
+/* ==========================================================================
+   11. BADGES & CHIPS
+   ========================================================================== */
+.fi-badge,
+.fi-badge-label,
+.badge {
+    font-size: 11px !important;
+    line-height: 16px !important;
+    font-weight: 550 !important;
+    border-radius: var(--radius-badge) !important;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+    padding-top: 0.125rem !important;
+    padding-bottom: 0.125rem !important;
+}
+
+/* ==========================================================================
+   12. BUTTONS & ACTIONS
+   ========================================================================== */
+.fi-btn,
+button.fi-btn,
+.btn {
+    font-size: 13px !important;
+    line-height: 20px !important;
+    font-weight: 500 !important;
+    border-radius: var(--radius-btn) !important;
+}
+
+/* ==========================================================================
+   13. RADIUS DISCIPLINE (Anti-AI Slop Overrides)
+   ========================================================================== */
+/* Badges */
+.fi-badge,
+[class*="rounded-full"]:not(.fi-avatar):not([class*="w-2.5"]):not([class*="w-2"]):not([class*="w-3"]) {
+    border-radius: var(--radius-badge) !important;
+}
+
+/* Buttons & Inputs */
+.fi-btn,
+.fi-input-wrp,
+.fi-input,
+.fi-select-input {
+    border-radius: var(--radius-btn) !important;
+}
+
+/* Cards, Sections, Table Containers */
+.fi-section,
+.fi-card,
+.fi-ta-ctn,
+.fi-wi-stats-overview-stat {
+    border-radius: var(--radius-card) !important;
+}
+
+/* Modals & Dialog Windows */
+.fi-modal-window,
+.fi-dialog-window,
+[role="dialog"] {
+    border-radius: var(--radius-modal) !important;
+}
+
+/* Avatars Stay Perfectly Circular */
+.fi-avatar,
+.fi-avatar img,
+img.fi-avatar {
+    border-radius: var(--radius-avatar) !important;
+}
