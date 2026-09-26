@@ -14,10 +14,9 @@ class EconomicCalendarStatsWidget extends StatsOverviewWidget
     protected function getStats(): array
     {
         $config = EconomicCalendarConfig::first();
-        $isDemo = $config ? $config->is_demo : true;
         $status = $config ? $config->status : 'ready';
-
-        $apiStatusText = $isDemo ? 'Demo Key (guest:guest)' : 'Live API Key Terpasang';
+        $providerName = $config ? ($config->provider === 'fcsapi' ? 'FCS API' : 'Trading Economics') : 'FCS API';
+        $apiStatusText = $config && $config->api_key ? 'API Key Terpasang & Siap' : 'Belum Ada API Key';
         $apiColor = $status === 'connected' ? 'success' : ($status === 'error' ? 'danger' : 'info');
 
         $totalEvents = EconomicCalendarEvent::count();
@@ -25,8 +24,8 @@ class EconomicCalendarStatsWidget extends StatsOverviewWidget
         $usdCount = EconomicCalendarEvent::where('currency', 'USD')->count();
 
         return [
-            Stat::make('Status API Trading Economics', $apiStatusText)
-                ->description($isDemo ? 'Mode demo kuota publik • Masukkan API key pribadi' : 'API Key aktif terhubung ke Trading Economics')
+            Stat::make("Status Provider ({$providerName})", $apiStatusText)
+                ->description($status === 'connected' ? 'Terhubung aktif ke fcsapi.com v4' : 'Klik tombol Test Hubungi API')
                 ->descriptionIcon('heroicon-m-key')
                 ->color($apiColor),
 

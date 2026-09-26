@@ -13,13 +13,13 @@ class EconomicCalendarSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1. Seed Trading Economics 1-Kolom API Configuration
+        // 1. Seed FCS API (fcsapi.com) 1-Kolom API Configuration
         EconomicCalendarConfig::updateOrCreate(
-            ['provider' => 'trading_economics'],
+            ['provider' => 'fcsapi'],
             [
-                'name' => 'Trading Economics API (Kalender Ekonomi)',
-                'api_key' => 'guest:guest', // Default demo key, dapat diubah sewaktu-waktu oleh user
-                'base_url' => 'https://api.tradingeconomics.com',
+                'name' => 'FCS API (fcsapi.com)',
+                'api_key' => 'AHw1wEDTk4Vqzyf3ElPTT3', // User Access Key from fcsapi.com dashboard
+                'base_url' => 'https://api-v4.fcsapi.com',
                 'status' => 'connected',
                 'last_tested_at' => now(),
                 'last_error_message' => null,
@@ -27,7 +27,7 @@ class EconomicCalendarSeeder extends Seeder
             ]
         );
 
-        // 2. Seed Realistic Macro Economic Calendar Events
+        // 2. Seed Macro Economic Calendar Events
         $events = [
             [
                 'country' => 'United States',
@@ -40,7 +40,7 @@ class EconomicCalendarSeeder extends Seeder
                 'unit' => 'K',
                 'event_date' => now()->startOfWeek()->addDays(4)->setTime(19, 30),
                 'period' => 'Sep',
-                'source' => 'Trading Economics',
+                'source' => 'FCS API',
             ],
             [
                 'country' => 'United States',
@@ -53,7 +53,7 @@ class EconomicCalendarSeeder extends Seeder
                 'unit' => '%',
                 'event_date' => now()->startOfWeek()->addDays(4)->setTime(19, 30),
                 'period' => 'Sep',
-                'source' => 'Trading Economics',
+                'source' => 'FCS API',
             ],
             [
                 'country' => 'United States',
@@ -66,7 +66,7 @@ class EconomicCalendarSeeder extends Seeder
                 'unit' => '%',
                 'event_date' => now()->startOfWeek()->addDays(2)->setTime(19, 30),
                 'period' => 'Sep',
-                'source' => 'Trading Economics',
+                'source' => 'FCS API',
             ],
             [
                 'country' => 'United States',
@@ -79,7 +79,7 @@ class EconomicCalendarSeeder extends Seeder
                 'unit' => '%',
                 'event_date' => now()->startOfWeek()->addDays(1)->setTime(1, 0),
                 'period' => 'Sep',
-                'source' => 'Trading Economics',
+                'source' => 'FCS API',
             ],
             [
                 'country' => 'Euro Area',
@@ -92,7 +92,7 @@ class EconomicCalendarSeeder extends Seeder
                 'unit' => '%',
                 'event_date' => now()->startOfWeek()->addDays(3)->setTime(19, 15),
                 'period' => 'Okt',
-                'source' => 'Trading Economics',
+                'source' => 'FCS API',
             ],
             [
                 'country' => 'United Kingdom',
@@ -105,7 +105,7 @@ class EconomicCalendarSeeder extends Seeder
                 'unit' => '%',
                 'event_date' => now()->startOfWeek()->addDays(3)->setTime(18, 0),
                 'period' => 'Okt',
-                'source' => 'Trading Economics',
+                'source' => 'FCS API',
             ],
             [
                 'country' => 'Japan',
@@ -118,33 +118,33 @@ class EconomicCalendarSeeder extends Seeder
                 'unit' => '%',
                 'event_date' => now()->startOfWeek()->addDays(4)->setTime(10, 30),
                 'period' => 'Okt',
-                'source' => 'Trading Economics',
+                'source' => 'FCS API',
+            ],
+            [
+                'country' => 'Canada',
+                'currency' => 'CAD',
+                'event_name' => 'Budget Balance',
+                'impact_level' => 'low',
+                'actual' => null,
+                'forecast' => null,
+                'previous' => '0.99',
+                'unit' => 'C$',
+                'event_date' => now()->startOfWeek()->addDays(4)->setTime(15, 0),
+                'period' => 'Jul',
+                'source' => 'FCS API',
             ],
             [
                 'country' => 'United States',
                 'currency' => 'USD',
-                'event_name' => 'GDP Growth Rate QoQ Final',
+                'event_name' => 'Michigan Consumer Sentiment',
                 'impact_level' => 'medium',
-                'actual' => '3.0%',
-                'forecast' => '2.9%',
-                'previous' => '1.4%',
-                'unit' => '%',
-                'event_date' => now()->startOfWeek()->addDays(2)->setTime(19, 30),
-                'period' => 'Q2',
-                'source' => 'Trading Economics',
-            ],
-            [
-                'country' => 'Euro Area',
-                'currency' => 'EUR',
-                'event_name' => 'HCOB Manufacturing PMI Flash',
-                'impact_level' => 'medium',
-                'actual' => '45.0',
-                'forecast' => '45.6',
-                'previous' => '45.8',
+                'actual' => '55.2',
+                'forecast' => '45.8',
+                'previous' => '51.5',
                 'unit' => 'Points',
-                'event_date' => now()->startOfWeek()->addDays(1)->setTime(15, 0),
+                'event_date' => now()->startOfWeek()->addDays(4)->setTime(14, 0),
                 'period' => 'Sep',
-                'source' => 'Trading Economics',
+                'source' => 'FCS API',
             ],
         ];
 

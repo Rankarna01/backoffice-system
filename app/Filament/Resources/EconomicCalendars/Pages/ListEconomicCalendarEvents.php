@@ -5,7 +5,7 @@ namespace App\Filament\Resources\EconomicCalendars\Pages;
 use App\Domain\Market\Models\EconomicCalendarConfig;
 use App\Filament\Resources\EconomicCalendars\EconomicCalendarResource;
 use App\Filament\Resources\EconomicCalendars\Widgets\EconomicCalendarStatsWidget;
-use App\Services\TradingEconomicsService;
+use App\Services\FcsApiService;
 use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
 use Filament\Forms\Components\TextInput;
@@ -22,14 +22,14 @@ class ListEconomicCalendarEvents extends ListRecords
     {
         return [
             Action::make('manage_api_key')
-                ->label('⚙️ Pengaturan API Key')
+                ->label('⚙️ Pengaturan API Key (FCS API)')
                 ->icon('heroicon-m-key')
                 ->color('gray')
-                ->modalHeading('Pengaturan API Key Trading Economics')
-                ->modalDescription('Masukkan API Key yang Anda peroleh dari https://tradingeconomics.com/api/. Anda juga dapat menggunakan demo key guest:guest untuk pengujian cepat.')
+                ->modalHeading('Pengaturan API Access Key FCS API')
+                ->modalDescription('Kelola API Access Key dari platform https://fcsapi.com/dashboard untuk kalender ekonomi forex, komoditas, dan indikator makro global.')
                 ->fillForm(function () {
-                    /** @var TradingEconomicsService $service */
-                    $service = app(TradingEconomicsService::class);
+                    /** @var FcsApiService $service */
+                    $service = app(FcsApiService::class);
                     $config = $service->getConfig();
                     return [
                         'api_key' => $config->api_key,
@@ -39,23 +39,24 @@ class ListEconomicCalendarEvents extends ListRecords
                 })
                 ->form([
                     TextInput::make('api_key')
-                        ->label('API Key Trading Economics (1 Kolom)')
-                        ->placeholder('guest:guest atau masukkan API Key pribadi Anda')
+                        ->label('API Access Key FCS API (1 Kolom)')
+                        ->placeholder('Contoh: AHw1wEDTk4Vqzyf3ElPTT3')
                         ->required()
-                        ->helperText('Daftar gratis di https://tradingeconomics.com/api/ untuk mendapatkan API key pribadi resmi.'),
+                        ->helperText('Dapatkan API Key di https://fcsapi.com/dashboard pada bagian "API Access Key".'),
 
                     TextInput::make('base_url')
                         ->label('Base API Endpoint URL')
-                        ->default('https://api.tradingeconomics.com')
-                        ->required(),
+                        ->default('https://api-v4.fcsapi.com')
+                        ->required()
+                        ->helperText('Endpoint standar FCS API v4 (https://api-v4.fcsapi.com).'),
 
                     Toggle::make('is_active')
-                        ->label('Aktifkan Provider Ini')
+                        ->label('Aktifkan Provider FCS API')
                         ->default(true),
                 ])
                 ->action(function (array $data) {
-                    /** @var TradingEconomicsService $service */
-                    $service = app(TradingEconomicsService::class);
+                    /** @var FcsApiService $service */
+                    $service = app(FcsApiService::class);
                     $config = $service->getConfig();
                     $config->update([
                         'api_key' => trim($data['api_key']),
@@ -65,7 +66,7 @@ class ListEconomicCalendarEvents extends ListRecords
 
                     Notification::make()
                         ->title('API Key Berhasil Disimpan!')
-                        ->body('Konfigurasi Trading Economics telah diperbarui.')
+                        ->body('Konfigurasi FCS API telah diperbarui.')
                         ->success()
                         ->send();
                 }),
@@ -74,39 +75,74 @@ class ListEconomicCalendarEvents extends ListRecords
                 ->label('⚡ Test Hubungi API')
                 ->icon('heroicon-m-bolt')
                 ->color('warning')
-                ->modalHeading('Hasil Pengujian Koneksi Trading Economics API')
+                ->modalHeading('Hasil Pengujian Koneksi FCS API (fcsapi.com)')
                 ->modalContent(function () {
-                    /** @var TradingEconomicsService $service */
-                    $service = app(TradingEconomicsService::class);
+                    /** @var FcsApiService $service */
+                    $service = app(FcsApiService::class);
                     $result = $service->testConnection();
 
                     $statusBadge = $result['success']
-                        ? '<span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-success-500/20 text-success-400">✓ KONEKSI BERHASIL</span>'
-                        : '<span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-danger-500/20 text-danger-400">✕ GAGAL TERHUBUNG</span>';
+                        ? '<span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-emerald-500/20 text-emerald-400">✓ KONEKSI BERHASIL & AKTIF</span>'
+                        : '<span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-rose-500/20 text-rose-400">✕ GAGAL TERHUBUNG</span>';
 
-                    $modeBadge = ($result['is_demo'] ?? false)
-                        ? '<span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-warning-500/20 text-warning-400">Mode Demo Key (guest:guest)</span>'
-                        : '<span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-info-500/20 text-info-400">Live API Key Pribadi</span>';
+                    $providerBadge = '<span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-indigo-500/20 text-indigo-400">Platform: FCS API v4</span>';
 
                     $sampleDataHtml = '';
                     if (! empty($result['sample_data'])) {
-                        $sampleDataHtml = '<div class="mt-3"><p class="text-xs font-bold text-gray-300 mb-1">Cuplikan Respons Data Kalender:</p><pre class="p-3 bg-gray-950 text-gray-300 rounded text-xs overflow-x-auto max-h-[160px]">' . e(json_encode($result['sample_data'], JSON_PRETTY_PRINT)) . '</pre></div>';
+                        $sampleDataHtml = '<div class="mt-3"><p class="text-xs font-bold text-gray-300 mb-1">Cuplikan Respons Data Kalender Real-Time:</p><pre class="p-3 bg-gray-950 text-gray-300 rounded text-xs overflow-x-auto max-h-[160px]">' . e(json_encode($result['sample_data'], JSON_PRETTY_PRINT)) . '</pre></div>';
                     }
+
+                    $creditInfo = isset($result['credit_count'])
+                        ? '<span class="text-xs text-amber-400">Kredit Terpakai: ' . $result['credit_count'] . '</span>'
+                        : '';
+
+                    $serverTimeInfo = isset($result['server_time'])
+                        ? '<span class="text-xs text-gray-400">Server Time: ' . e($result['server_time']) . '</span>'
+                        : '';
 
                     return new HtmlString('
                         <div class="space-y-4">
-                            <div class="flex items-center gap-2">
+                            <div class="flex flex-wrap items-center gap-2">
                                 ' . $statusBadge . '
-                                ' . $modeBadge . '
+                                ' . $providerBadge . '
                                 <span class="text-xs text-gray-400">Latensi: ' . ($result['latency_ms'] ?? 0) . ' ms</span>
+                                ' . $creditInfo . '
+                                ' . $serverTimeInfo . '
                             </div>
                             <div class="p-3 rounded-lg bg-gray-900 border border-gray-800 text-sm text-gray-200">
                                 <p>' . e($result['message']) . '</p>
                             </div>
                             ' . $sampleDataHtml . '
-                            <p class="text-xs text-gray-500">Endpoint: https://api.tradingeconomics.com/calendar</p>
+                            <p class="text-xs text-gray-500">Endpoint: https://api-v4.fcsapi.com/forex/economy_cal</p>
                         </div>
                     ');
+                }),
+
+            Action::make('sync_live_data')
+                ->label('🔄 Sinkronkan Data Live')
+                ->icon('heroicon-m-arrow-path')
+                ->color('success')
+                ->requiresConfirmation()
+                ->modalHeading('Sinkronisasi Kalender Ekonomi Live dari FCS API')
+                ->modalDescription('Sistem akan mengambil data jadwal rilis ekonomi terbaru dari server FCS API dan menyimpannya ke tabel kalender.')
+                ->action(function () {
+                    /** @var FcsApiService $service */
+                    $service = app(FcsApiService::class);
+                    $count = $service->syncEvents();
+
+                    if ($count > 0) {
+                        Notification::make()
+                            ->title('Sinkronisasi Berhasil!')
+                            ->body("Berhasil memperbarui {$count} event kalender ekonomi dari FCS API.")
+                            ->success()
+                            ->send();
+                    } else {
+                        Notification::make()
+                            ->title('Sinkronisasi Belum Menghasilkan Data')
+                            ->body('Pastikan API Key FCS API valid dan kuota request mencukupi.')
+                            ->warning()
+                            ->send();
+                    }
                 }),
 
             CreateAction::make()

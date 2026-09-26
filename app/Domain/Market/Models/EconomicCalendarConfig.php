@@ -43,4 +43,9 @@ class EconomicCalendarConfig extends Model
             default => 'info',
         };
     }
+
+    public function getProviderNameAttribute(): string
+    {
+        return $this->provider === 'fcsapi' ? 'FCS API (fcsapi.com)' : 'Trading Economics';
+    }
 }
