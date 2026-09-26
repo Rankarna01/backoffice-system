@@ -30,6 +30,8 @@ class ListEconomicCalendarEvents extends ListRecords
                         'tradingViewConfig' => $config->toTradingViewConfig(),
                     ]);
                 })
+                ->modalSubmitAction(false)
+                ->modalCancelActionLabel('Tutup Preview')
                 ->modalWidth('5xl'),
 
             CreateAction::make()

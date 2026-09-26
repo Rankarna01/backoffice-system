@@ -31,6 +31,8 @@ class EditEconomicCalendarEvent extends EditRecord
                     'config' => $record,
                     'tradingViewConfig' => $record->toTradingViewConfig(),
                 ]))
+                ->modalSubmitAction(false)
+                ->modalCancelActionLabel('Tutup Preview')
                 ->modalWidth('5xl'),
 
             DeleteAction::make()

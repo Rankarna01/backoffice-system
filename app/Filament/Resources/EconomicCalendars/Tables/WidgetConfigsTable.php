@@ -83,6 +83,8 @@ class WidgetConfigsTable
                         'config' => $record,
                         'tradingViewConfig' => $record->toTradingViewConfig(),
                     ]))
+                    ->modalSubmitAction(false)
+                    ->modalCancelActionLabel('Tutup Preview')
                     ->modalWidth('5xl'),
 
                 EditAction::make(),

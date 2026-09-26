@@ -26,6 +26,7 @@ Route::get('/health', function () {
 // Authentication endpoints
 Route::post('/register', [AuthController::class, 'register'])->name('api.v1.register');
 Route::post('/login', [AuthController::class, 'login'])->name('api.v1.login');
+Route::post('/logout', [AuthController::class, 'logout'])->name('api.v1.logout');
 
 // Public Market & Economic Calendar Widget Config
 Route::get('/customers/{id}/economic-calendar-config', [\App\Http\Controllers\Api\V1\EconomicCalendarConfigController::class, 'show'])
@@ -35,6 +36,5 @@ Route::get('/economic-calendar-config', [\App\Http\Controllers\Api\V1\EconomicCa
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'me'])->name('api.v1.me');
-    Route::post('/logout', [AuthController::class, 'logout'])->name('api.v1.logout');
 });
 

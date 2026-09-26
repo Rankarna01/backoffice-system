@@ -160,7 +160,8 @@ class AuthController extends Controller
      */
     public function logout(Request $request): JsonResponse
     {
-        if ($user = $request->user()) {
+        $user = $request->user('sanctum') ?? $request->user();
+        if ($user) {
             $user->currentAccessToken()?->delete();
         }
 
@@ -172,6 +173,7 @@ class AuthController extends Controller
         }
 
         return response()->json([
+            'status' => 'success',
             'message' => 'Logout berhasil',
         ]);
     }
