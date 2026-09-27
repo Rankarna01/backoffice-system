@@ -27,4 +27,6 @@ class ListDiscussions extends ListRecords
             DiscussionStatsWidget::class,
         ];
     }
+
+    
 }

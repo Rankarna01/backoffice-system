@@ -98,4 +98,19 @@ class User extends Authenticatable implements FilamentUser
             'live_session_id'
         )->withPivot(['attended', 'attended_at', 'notes'])->withTimestamps();
     }
+
+    public function subscriptions(): HasMany
+    {
+        return $this->hasMany(\App\Domain\Billing\Models\Subscription::class);
+    }
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany(\App\Domain\Billing\Models\Order::class);
+    }
+
+    public function affiliate(): HasOne
+    {
+        return $this->hasOne(\App\Domain\Billing\Models\Affiliate::class);
+    }
 }

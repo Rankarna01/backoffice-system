@@ -1,0 +1,22 @@
+<?php
+
+namespace App\Filament\Resources\Orders\Pages;
+
+use App\Filament\Resources\Orders\OrderResource;
+use Filament\Resources\Pages\CreateRecord;
+use Filament\Support\Enums\Width;
+
+class CreateOrder extends CreateRecord
+{
+    protected static string $resource = OrderResource::class;
+
+    public function getMaxContentWidth(): Width | string | null
+    {
+        return Width::Full;
+    }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
+}

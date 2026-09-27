@@ -35,6 +35,7 @@ class DatabaseSeeder extends Seeder
             EconomicCalendarSeeder::class,
             DiscussionSeeder::class,
             LiveSessionSeeder::class,
+            MonetizationSeeder::class,
         ]);
     }
 }
