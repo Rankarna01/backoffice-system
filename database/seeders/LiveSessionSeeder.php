@@ -57,7 +57,7 @@ class LiveSessionSeeder extends Seeder
             );
         }
 
-        // 2. Currently Live 🔴 Scalping Session
+        // 2. Currently Live Scalping Session
         $session2 = LiveSession::updateOrCreate(
             ['slug' => 'live-scalping-session-london-open-eurusd-gbpusd'],
             [

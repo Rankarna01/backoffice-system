@@ -80,9 +80,9 @@ class MarketNewsTable
                     ->badge()
                     ->color(fn (MarketNews $record): string => $record->sentiment_color)
                     ->formatStateUsing(fn (string $state): string => match ($state) {
-                        'bullish' => 'Bullish 🐂',
-                        'bearish' => 'Bearish 🐻',
-                        default => 'Neutral ⚖️',
+                        'bullish' => 'Bullish',
+                        'bearish' => 'Bearish',
+                        default => 'Neutral',
                     })
                     ->sortable()
                     ->alignCenter()
@@ -90,10 +90,10 @@ class MarketNewsTable
                     ->extraCellAttributes(['style' => 'min-width: 100px;']),
 
                 IconColumn::make('is_breaking')
-                    ->label('Flash ⚡')
+                    ->label('Flash')
                     ->boolean()
-                    ->trueIcon('heroicon-m-bolt')
-                    ->falseIcon('heroicon-m-minus')
+                    ->trueIcon('bxs-zap')
+                    ->falseIcon('bx-minus')
                     ->trueColor('warning')
                     ->falseColor('gray')
                     ->alignCenter()
@@ -132,9 +132,9 @@ class MarketNewsTable
                 SelectFilter::make('impact_level')
                     ->label('Tingkat Dampak Volatilitas')
                     ->options([
-                        'high' => 'High Impact (Volatilitas Ekstrem 🔴)',
-                        'medium' => 'Medium Impact 🟡',
-                        'low' => 'Low Impact 🟢',
+                        'high' => 'High Impact (Volatilitas Ekstrem)',
+                        'medium' => 'Medium Impact (Sedang)',
+                        'low' => 'Low Impact (Ringan)',
                     ]),
 
                 SelectFilter::make('category')

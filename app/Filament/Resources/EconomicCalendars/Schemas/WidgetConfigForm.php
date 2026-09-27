@@ -23,7 +23,7 @@ class WidgetConfigForm
                         ->relationship('customer', 'name')
                         ->searchable()
                         ->preload()
-                        ->placeholder('🌐 Global Default (Berlaku untuk Semua Customer)')
+                        ->placeholder('Global Default (Berlaku untuk Semua Customer)')
                         ->helperText('Kosongkan kolom ini jika ingin menjadikannya pengaturan default seluruh aplikasi customer.'),
 
                     Toggle::make('is_active')
@@ -38,8 +38,8 @@ class WidgetConfigForm
                     Select::make('color_theme')
                         ->label('Tema Warna (Color Theme)')
                         ->options([
-                            'dark' => '🌙 Dark Theme (Direkomendasikan)',
-                            'light' => '☀️ Light Theme',
+                            'dark' => 'Dark Theme (Direkomendasikan)',
+                            'light' => 'Light Theme',
                         ])
                         ->default('dark')
                         ->required(),
@@ -84,9 +84,9 @@ class WidgetConfigForm
                     Select::make('importance_filter')
                         ->label('Filter Tingkat Dampak (Importance Filter)')
                         ->options([
-                            '-1,0,1' => '🟢🟡🔴 Semua Dampak (Low, Medium, & High Impact)',
-                            '0,1' => '🟡🔴 Medium & High Impact Saja',
-                            '1' => '🔴 High Impact Only (Katalis Volatilitas Utama / NFP / CPI)',
+                            '-1,0,1' => 'Semua Dampak (Low, Medium, & High Impact)',
+                            '0,1' => 'Medium & High Impact Saja',
+                            '1' => 'High Impact Only (Katalis Volatilitas Utama / NFP / CPI)',
                         ])
                         ->default('-1,0,1')
                         ->required()
@@ -96,16 +96,16 @@ class WidgetConfigForm
                         ->label('Filter Mata Uang (Currencies Filter)')
                         ->multiple()
                         ->options([
-                            'USD' => '🇺🇸 USD - US Dollar',
-                            'EUR' => '🇪🇺 EUR - Euro',
-                            'GBP' => '🇬🇧 GBP - British Pound',
-                            'JPY' => '🇯🇵 JPY - Japanese Yen',
-                            'AUD' => '🇦🇺 AUD - Australian Dollar',
-                            'CAD' => '🇨🇦 CAD - Canadian Dollar',
-                            'CHF' => '🇨🇭 CHF - Swiss Franc',
-                            'NZD' => '🇳🇿 NZD - New Zealand Dollar',
-                            'CNY' => '🇨🇳 CNY - Chinese Yuan',
-                            'IDR' => '🇮🇩 IDR - Indonesian Rupiah',
+                            'USD' => 'USD - US Dollar',
+                            'EUR' => 'EUR - Euro',
+                            'GBP' => 'GBP - British Pound',
+                            'JPY' => 'JPY - Japanese Yen',
+                            'AUD' => 'AUD - Australian Dollar',
+                            'CAD' => 'CAD - Canadian Dollar',
+                            'CHF' => 'CHF - Swiss Franc',
+                            'NZD' => 'NZD - New Zealand Dollar',
+                            'CNY' => 'CNY - Chinese Yuan',
+                            'IDR' => 'IDR - Indonesian Rupiah',
                         ])
                         ->default(['USD', 'EUR', 'GBP', 'JPY', 'AUD', 'CAD', 'CHF'])
                         ->columnSpanFull()

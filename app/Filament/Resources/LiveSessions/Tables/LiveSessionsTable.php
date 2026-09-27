@@ -76,18 +76,18 @@ class LiveSessionsTable
                     ->label('Peserta Terdaftar')
                     ->state(function (LiveSession $record): string {
                         $max = $record->max_participants > 0 ? $record->max_participants : '∞';
-                        return "👥 {$record->registered_count}/{$max} ({$record->attended_count} hadir)";
+                        return "{$record->registered_count}/{$max} ({$record->attended_count} hadir)";
                     })
                     ->color('gray'),
 
                 TextColumn::make('recording')
                     ->label('Replay')
-                    ->state(fn (LiveSession $record): string => ! empty($record->recording_url) ? '🎬 Tersedia' : '—')
+                    ->state(fn (LiveSession $record): string => ! empty($record->recording_url) ? 'Tersedia' : '—')
                     ->badge()
-                    ->color(fn (string $state): string => $state === '🎬 Tersedia' ? 'success' : 'gray'),
+                    ->color(fn (string $state): string => $state === 'Tersedia' ? 'success' : 'gray'),
 
                 ToggleColumn::make('is_featured')
-                    ->label('Featured ⭐')
+                    ->label('Featured')
                     ->sortable(),
             ])
             ->filters([
@@ -125,8 +125,8 @@ class LiveSessionsTable
             ])
             ->recordActions([
                 Action::make('go_live')
-                    ->label('Mulai Live 🔴')
-                    ->icon('heroicon-m-signal')
+                    ->label('Mulai Live')
+                    ->icon('bx-broadcast')
                     ->color('danger')
                     ->requiresConfirmation()
                     ->modalHeading('Mulai Siaran Langsung (Go Live)')
@@ -136,7 +136,7 @@ class LiveSessionsTable
                         $record->update(['status' => LiveSessionStatus::Live]);
 
                         Notification::make()
-                            ->title('Sesi Live Telah Dimulai! 🔴')
+                            ->title('Sesi Live Telah Dimulai!')
                             ->body("Sesi '{$record->title}' kini berstatus Live dan dapat diakses peserta.")
                             ->success()
                             ->send();
@@ -144,7 +144,7 @@ class LiveSessionsTable
 
                 Action::make('complete_session')
                     ->label('Selesaikan Sesi')
-                    ->icon('heroicon-m-check-circle')
+                    ->icon('bx-check-circle')
                     ->color('success')
                     ->visible(fn (LiveSession $record): bool => $record->status === LiveSessionStatus::Live)
                     ->form([
@@ -176,13 +176,13 @@ class LiveSessionsTable
 
                 Action::make('open_room')
                     ->label('Buka Ruangan')
-                    ->icon('heroicon-m-arrow-top-right-on-square')
+                    ->icon('bx-link-external')
                     ->color('primary')
                     ->url(fn (LiveSession $record): string => $record->join_url)
                     ->openUrlInNewTab(),
 
-                EditAction::make(),
-                DeleteAction::make(),
+                EditAction::make()->icon('bx-edit'),
+                DeleteAction::make()->icon('bx-trash'),
             ]);
     }
 }

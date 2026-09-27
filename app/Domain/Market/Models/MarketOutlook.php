@@ -65,10 +65,10 @@ class MarketOutlook extends Model
     public function getSentimentLabelAttribute(): string
     {
         return match ($this->sentiment) {
-            'bullish' => 'Bullish 🐂',
-            'bearish' => 'Bearish 🐻',
-            'neutral' => 'Neutral ⚖️',
-            'volatile' => 'Volatile ⚡',
+            'bullish' => 'Bullish',
+            'bearish' => 'Bearish',
+            'neutral' => 'Neutral',
+            'volatile' => 'Volatile',
             default => ucfirst($this->sentiment),
         };
     }

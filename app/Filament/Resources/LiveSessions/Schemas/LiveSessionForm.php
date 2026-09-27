@@ -61,7 +61,7 @@ class LiveSessionForm
                         ->relationship('course', 'title')
                         ->searchable()
                         ->preload()
-                        ->placeholder('🌐 Sesi Terbuka / Market Breakdown Bebas')
+                        ->placeholder('Sesi Terbuka / Market Breakdown Bebas')
                         ->columnSpan(1),
 
                     TextInput::make('cover_image_url')

@@ -18,8 +18,8 @@ class ListEconomicCalendarEvents extends ListRecords
     {
         return [
             Action::make('preview_live_widget')
-                ->label('👁️ Preview Live Widget TradingView')
-                ->icon(Heroicon::OutlinedEye)
+                ->label('Preview Live Widget TradingView')
+                ->icon('bx-show')
                 ->color('warning')
                 ->modalHeading('Live Preview Widget Kalender Ekonomi TradingView')
                 ->modalDescription('Tampilan nyata script resmi TradingView (https://s3.tradingview.com/external-embedding/embed-widget-events.js) berdasarkan konfigurasi aktif.')
@@ -36,7 +36,7 @@ class ListEconomicCalendarEvents extends ListRecords
 
             CreateAction::make()
                 ->label('Tambah Override Customer')
-                ->icon(Heroicon::OutlinedPlusCircle),
+                ->icon('bx-plus-circle'),
         ];
     }
 

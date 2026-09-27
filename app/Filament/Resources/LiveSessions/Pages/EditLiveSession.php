@@ -25,21 +25,21 @@ class EditLiveSession extends EditRecord
     {
         return [
             Action::make('go_live_header')
-                ->label('Mulai Live Sekarang 🔴')
+                ->label('Mulai Live Sekarang')
                 ->color('danger')
-                ->icon('heroicon-m-signal')
+                ->icon('bx-broadcast')
                 ->requiresConfirmation()
                 ->modalHeading('Mulai Siaran Langsung (Go Live)')
                 ->visible(fn (LiveSession $record): bool => $record->status === LiveSessionStatus::Upcoming)
                 ->action(function (LiveSession $record) {
                     $record->update(['status' => LiveSessionStatus::Live]);
-                    Notification::make()->title('Sesi Live Telah Dimulai 🔴')->success()->send();
+                    Notification::make()->title('Sesi Live Telah Dimulai')->success()->send();
                 }),
 
             Action::make('complete_session_header')
-                ->label('Selesaikan Sesi ✅')
+                ->label('Selesaikan Sesi')
                 ->color('success')
-                ->icon('heroicon-m-check-circle')
+                ->icon('bx-check-circle')
                 ->visible(fn (LiveSession $record): bool => $record->status === LiveSessionStatus::Live)
                 ->form([
                     TextInput::make('recording_url')
@@ -66,12 +66,12 @@ class EditLiveSession extends EditRecord
 
             Action::make('open_room_header')
                 ->label('Buka Ruangan Live')
-                ->icon('heroicon-m-arrow-top-right-on-square')
+                ->icon('bx-link-external')
                 ->color('primary')
                 ->url(fn (LiveSession $record): string => $record->join_url)
                 ->openUrlInNewTab(),
 
-            DeleteAction::make(),
+            DeleteAction::make()->icon('bx-trash'),
         ];
     }
 

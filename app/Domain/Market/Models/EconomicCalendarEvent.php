@@ -46,9 +46,9 @@ class EconomicCalendarEvent extends Model
     public function getImpactLabelAttribute(): string
     {
         return match ($this->impact_level) {
-            'high' => 'High 🔴',
-            'medium' => 'Medium 🟡',
-            'low' => 'Low 🟢',
+            'high' => 'High',
+            'medium' => 'Medium',
+            'low' => 'Low',
             default => ucfirst($this->impact_level),
         };
     }

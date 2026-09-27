@@ -23,8 +23,8 @@ class EditEconomicCalendarEvent extends EditRecord
     {
         return [
             Action::make('preview_live')
-                ->label('👁️ Preview Widget')
-                ->icon(Heroicon::OutlinedEye)
+                ->label('Preview Widget')
+                ->icon('bx-show')
                 ->color('warning')
                 ->modalHeading(fn (WidgetConfig $record): string => 'Live Preview: ' . ($record->customer_id ? "Customer: {$record->customer?->name}" : 'Global Default'))
                 ->modalContent(fn (WidgetConfig $record) => view('filament.resources.economic-calendars.preview-widget', [
@@ -36,6 +36,7 @@ class EditEconomicCalendarEvent extends EditRecord
                 ->modalWidth('5xl'),
 
             DeleteAction::make()
+                ->icon('bx-trash')
                 ->visible(fn (WidgetConfig $record): bool => $record->customer_id !== null),
         ];
     }

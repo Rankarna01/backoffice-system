@@ -17,7 +17,7 @@ enum LiveSessionStatus: string implements HasLabel, HasColor, HasIcon
     {
         return match ($this) {
             self::Upcoming => 'Akan Datang',
-            self::Live => 'Sedang Live 🔴',
+            self::Live => 'Sedang Live',
             self::Completed => 'Selesai (Replay Tersedia)',
             self::Cancelled => 'Dibatalkan',
         };
@@ -36,10 +36,10 @@ enum LiveSessionStatus: string implements HasLabel, HasColor, HasIcon
     public function getIcon(): ?string
     {
         return match ($this) {
-            self::Upcoming => 'heroicon-m-clock',
-            self::Live => 'heroicon-m-signal',
-            self::Completed => 'heroicon-m-check-badge',
-            self::Cancelled => 'heroicon-m-x-circle',
+            self::Upcoming => 'bx-time-five',
+            self::Live => 'bx-broadcast',
+            self::Completed => 'bx-check-circle',
+            self::Cancelled => 'bx-x-circle',
         };
     }
 

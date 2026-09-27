@@ -22,22 +22,22 @@ class LiveSessionStatsWidget extends StatsOverviewWidget
         return [
             Stat::make('Sesi Akan Datang', (string) $upcomingCount)
                 ->description('Webinar & live streaming terjadwal')
-                ->descriptionIcon('heroicon-m-calendar-days')
+                ->descriptionIcon('bx-calendar')
                 ->color('info'),
 
-            Stat::make('Sedang Live Sekarang 🔴', (string) $liveNowCount)
+            Stat::make('Sedang Live Sekarang', (string) $liveNowCount)
                 ->description($liveNowCount > 0 ? 'Room aktif & mentor sedang online' : 'Tidak ada sesi live saat ini')
-                ->descriptionIcon('heroicon-m-signal')
+                ->descriptionIcon('bx-broadcast')
                 ->color($liveNowCount > 0 ? 'danger' : 'gray'),
 
             Stat::make('Total Pendaftar Member', (string) $totalRegistrations)
                 ->description('Peserta terdaftar di semua sesi')
-                ->descriptionIcon('heroicon-m-user-group')
+                ->descriptionIcon('bx-group')
                 ->color('primary'),
 
             Stat::make('Arsip Rekaman (Replay)', (string) $recordedCount)
                 ->description('Video replay dapat diakses member')
-                ->descriptionIcon('heroicon-m-play-circle')
+                ->descriptionIcon('bx-play-circle')
                 ->color('success'),
         ];
     }

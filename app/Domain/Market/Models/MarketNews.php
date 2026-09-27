@@ -64,9 +64,9 @@ class MarketNews extends Model
     public function getImpactLabelAttribute(): string
     {
         return match ($this->impact_level) {
-            'high' => 'High Impact 🔴',
-            'medium' => 'Medium Impact 🟡',
-            'low' => 'Low Impact 🟢',
+            'high' => 'High Impact',
+            'medium' => 'Medium Impact',
+            'low' => 'Low Impact',
             default => ucfirst($this->impact_level),
         };
     }

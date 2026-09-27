@@ -96,6 +96,7 @@ class RegistrationsRelationManager extends RelationManager
             ->headerActions([
                 CreateAction::make()
                     ->label('Daftarkan Peserta')
+                    ->icon('bx-user-plus')
                     ->mutateFormDataUsing(function (array $data): array {
                         $data['registered_at'] = now();
                         if (! empty($data['attended']) && empty($data['attended_at'])) {
@@ -106,8 +107,8 @@ class RegistrationsRelationManager extends RelationManager
             ])
             ->recordActions([
                 Action::make('toggle_attendance')
-                    ->label(fn (LiveSessionRegistration $record): string => $record->attended ? 'Batalkan Presensi' : 'Tandai Hadir ✅')
-                    ->icon('heroicon-m-check-badge')
+                    ->label(fn (LiveSessionRegistration $record): string => $record->attended ? 'Batalkan Presensi' : 'Tandai Hadir')
+                    ->icon('bx-check-double')
                     ->color(fn (LiveSessionRegistration $record): string => $record->attended ? 'gray' : 'success')
                     ->action(function (LiveSessionRegistration $record) {
                         $newStatus = ! $record->attended;
@@ -122,8 +123,8 @@ class RegistrationsRelationManager extends RelationManager
                             ->send();
                     }),
 
-                EditAction::make(),
-                DeleteAction::make(),
+                EditAction::make()->icon('bx-edit'),
+                DeleteAction::make()->icon('bx-trash'),
             ]);
     }
 }
