@@ -1,15 +1,11 @@
 <x-filament-panels::page>
-    <x-module-placeholder
-        title="Payment"
-        group="SETTINGS"
-        description="Konfigurasi kredensial Payment Gateway (Midtrans / Xendit), server key, dan webhook secret."
-        icon="heroicon-o-banknotes"
-        :features="array (
-  0 => 'Pilihan gateway aktif (Midtrans / Xendit)',
-  1 => 'Environment Mode (Sandbox / Production)',
-  2 => 'Kredensial Server Key & Client Key',
-  3 => 'Endpoint webhook URL & secret verification',
-)"
-        primaryAction="Kelola Data"
-    />
+    <form wire:submit="save" class="space-y-6">
+        {{ $this->form }}
+
+        <div class="flex items-center justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-800">
+            <x-filament::button type="submit" icon="bx-check">
+                Simpan Konfigurasi Pembayaran
+            </x-filament::button>
+        </div>
+    </form>
 </x-filament-panels::page>

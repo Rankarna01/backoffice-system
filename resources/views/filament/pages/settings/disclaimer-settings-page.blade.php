@@ -1,15 +1,11 @@
 <x-filament-panels::page>
-    <x-module-placeholder
-        title="Disclaimer"
-        group="SETTINGS"
-        description="Teks penafian risiko trading (Risk Disclaimer) yang wajib tampil di seluruh sinyal dan kalkulator."
-        icon="heroicon-o-exclamation-triangle"
-        :features="array (
-  0 => 'Naskah Penafian Risiko Trading (Risk Warning)',
-  1 => 'Peringatan risiko instrumen ber-leverage tinggi',
-  2 => 'Penafian non-penasehat keuangan berlisensi',
-  3 => 'Posisi penempatan disclaimer di halaman customer',
-)"
-        primaryAction="Kelola Data"
-    />
+    <form wire:submit="save" class="space-y-6">
+        {{ $this->form }}
+
+        <div class="flex items-center justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-800">
+            <x-filament::button type="submit" icon="bx-check">
+                Simpan Konfigurasi Disclaimer
+            </x-filament::button>
+        </div>
+    </form>
 </x-filament-panels::page>

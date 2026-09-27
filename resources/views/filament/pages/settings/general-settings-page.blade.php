@@ -1,15 +1,11 @@
 <x-filament-panels::page>
-    <x-module-placeholder
-        title="General"
-        group="SETTINGS"
-        description="Pengaturan umum sistem: nama platform, kontak resmi WhatsApp/Telegram, dan timezone default."
-        icon="heroicon-o-adjustments-horizontal"
-        :features="array (
-  0 => 'Nama platform & deskripsi resmi',
-  1 => 'Kontak layanan pelanggan & support',
-  2 => 'Format mata uang & zona waktu default',
-  3 => 'Mode pemeliharaan (Maintenance mode)',
-)"
-        primaryAction="Kelola Data"
-    />
+    <form wire:submit="save" class="space-y-6">
+        {{ $this->form }}
+
+        <div class="flex items-center justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-800">
+            <x-filament::button type="submit" icon="bx-check">
+                Simpan Perubahan
+            </x-filament::button>
+        </div>
+    </form>
 </x-filament-panels::page>

@@ -37,6 +37,7 @@ class DatabaseSeeder extends Seeder
             LiveSessionSeeder::class,
             MonetizationSeeder::class,
             ContentSeeder::class,
+            SettingsSeeder::class,
         ]);
     }
 }
