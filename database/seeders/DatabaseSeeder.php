@@ -38,6 +38,8 @@ class DatabaseSeeder extends Seeder
             MonetizationSeeder::class,
             ContentSeeder::class,
             SettingsSeeder::class,
+            NotificationSeeder::class,
+            AnalyticsSeeder::class,
         ]);
     }
 }
