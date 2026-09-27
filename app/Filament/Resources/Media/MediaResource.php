@@ -21,9 +21,9 @@ class MediaResource extends Resource
 {
     protected static ?string $model = MediaAsset::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedPhoto;
+    protected static string|BackedEnum|null $navigationIcon = 'bx-photo-album';
 
-    protected static \UnitEnum|string|null $navigationGroup = 'LEARNING';
+    protected static \UnitEnum|string|null $navigationGroup = 'CONTENT';
 
     protected static ?string $navigationLabel = 'Media';
 

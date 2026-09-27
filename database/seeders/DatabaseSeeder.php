@@ -36,6 +36,7 @@ class DatabaseSeeder extends Seeder
             DiscussionSeeder::class,
             LiveSessionSeeder::class,
             MonetizationSeeder::class,
+            ContentSeeder::class,
         ]);
     }
 }
