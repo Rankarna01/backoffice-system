@@ -55,5 +55,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/lessons/{uuid}/progress', [LessonProgressController::class, 'updateProgress'])->name('api.v1.lessons.progress');
     Route::get('/quizzes/{id}', [QuizController::class, 'show'])->name('api.v1.quizzes.show');
     Route::post('/quizzes/{id}/submit', [QuizController::class, 'submit'])->name('api.v1.quizzes.submit');
+    
+    // Commerce
+    Route::post('/orders', [\App\Http\Controllers\Api\V1\OrderController::class, 'store'])->name('api.v1.orders.store');
 });
 

@@ -21,20 +21,7 @@ class MyCourseController extends Controller
     {
         $user = $request->user();
 
-        // If no enrollments exist yet, auto-enroll into first published course for seamless trial experience
-        $enrollmentsCount = CourseEnrollment::where('user_id', $user->id)->count();
-        if ($enrollmentsCount === 0) {
-            $firstCourse = Course::where('status', 'published')->first();
-            if ($firstCourse) {
-                CourseEnrollment::create([
-                    'user_id' => $user->id,
-                    'course_id' => $firstCourse->id,
-                    'progress_percentage' => 0.00,
-                    'completed_lessons_count' => 0,
-                    'enrolled_at' => now(),
-                ]);
-            }
-        }
+
 
         $enrollments = CourseEnrollment::with(['course.category', 'course.mentor'])
             ->where('user_id', $user->id)
@@ -130,11 +117,17 @@ class MyCourseController extends Controller
             ], 404);
         }
 
-        // Get or create enrollment for trial convenience
-        $enrollment = CourseEnrollment::firstOrCreate(
-            ['user_id' => $user->id, 'course_id' => $course->id],
-            ['progress_percentage' => 0.00, 'completed_lessons_count' => 0, 'enrolled_at' => now()]
-        );
+        // Check if user has an active enrollment
+        $enrollment = CourseEnrollment::where('user_id', $user->id)
+            ->where('course_id', $course->id)
+            ->first();
+
+        if (!$enrollment) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Anda belum membeli akses untuk kursus ini.',
+            ], 403);
+        }
 
         // Fetch completed lesson IDs for this user
         $completedLessonIds = LessonProgress::where('user_id', $user->id)
