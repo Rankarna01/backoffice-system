@@ -45,6 +45,16 @@ Route::get('/courses', [CourseController::class, 'index'])->name('api.v1.courses
 Route::get('/courses/{slug}', [CourseController::class, 'show'])->name('api.v1.courses.show');
 Route::get('/certificates/verify/{certificate_number}', [CertificateController::class, 'verify'])->name('api.v1.certificates.verify');
 
+// Market Signals Endpoints
+Route::get('/signals', [\App\Http\Controllers\Api\V1\SignalController::class, 'index'])->name('api.v1.signals.index');
+Route::get('/signals/stats', [\App\Http\Controllers\Api\V1\SignalController::class, 'stats'])->name('api.v1.signals.stats');
+Route::get('/signals/{id}', [\App\Http\Controllers\Api\V1\SignalController::class, 'show'])->name('api.v1.signals.show');
+
+// Market Outlooks Endpoints
+Route::get('/market-outlooks', [\App\Http\Controllers\Api\V1\MarketOutlookController::class, 'index'])->name('api.v1.market-outlooks.index');
+Route::get('/market-outlooks/stats', [\App\Http\Controllers\Api\V1\MarketOutlookController::class, 'stats'])->name('api.v1.market-outlooks.stats');
+Route::get('/market-outlooks/{slug}', [\App\Http\Controllers\Api\V1\MarketOutlookController::class, 'show'])->name('api.v1.market-outlooks.show');
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'me'])->name('api.v1.me');
 
@@ -57,6 +67,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/quizzes/{id}/submit', [QuizController::class, 'submit'])->name('api.v1.quizzes.submit');
     
     // Commerce
+    Route::get('/orders', [\App\Http\Controllers\Api\V1\OrderController::class, 'index'])->name('api.v1.orders.index');
     Route::post('/orders', [\App\Http\Controllers\Api\V1\OrderController::class, 'store'])->name('api.v1.orders.store');
 });
 

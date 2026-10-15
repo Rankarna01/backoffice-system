@@ -71,4 +71,42 @@ class OrderController extends Controller
             ], 500);
         }
     }
+
+    public function index(Request $request)
+    {
+        $user = $request->user();
+        
+        $orders = Order::with(['items', 'payments'])
+            ->where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($order) {
+                // If it's a course order, try to get the course slug from items
+                $slug = null;
+                $courseItem = collect($order->items)->firstWhere('purchasable_type', Course::class);
+                if ($courseItem) {
+                    $course = Course::find($courseItem->purchasable_id);
+                    if ($course) {
+                        $slug = $course->slug;
+                    }
+                }
+
+                return [
+                    'id' => $order->id,
+                    'number' => $order->number,
+                    'status' => is_string($order->status) ? $order->status : ($order->status->value ?? 'pending'),
+                    'total' => $order->total,
+                    'created_at' => $order->created_at,
+                    'items' => collect($order->items)->map(fn ($item) => [
+                        'name' => $item->name,
+                        'slug' => $slug,
+                    ]),
+                ];
+            });
+
+        return response()->json([
+            'success' => true,
+            'data' => $orders,
+        ]);
+    }
 }
