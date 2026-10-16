@@ -55,6 +55,11 @@ Route::get('/market-outlooks', [\App\Http\Controllers\Api\V1\MarketOutlookContro
 Route::get('/market-outlooks/stats', [\App\Http\Controllers\Api\V1\MarketOutlookController::class, 'stats'])->name('api.v1.market-outlooks.stats');
 Route::get('/market-outlooks/{slug}', [\App\Http\Controllers\Api\V1\MarketOutlookController::class, 'show'])->name('api.v1.market-outlooks.show');
 
+// Market News Endpoints
+Route::get('/market-news', [\App\Http\Controllers\Api\V1\MarketNewsController::class, 'index'])->name('api.v1.market-news.index');
+Route::get('/market-news/stats', [\App\Http\Controllers\Api\V1\MarketNewsController::class, 'stats'])->name('api.v1.market-news.stats');
+Route::get('/market-news/{slug}', [\App\Http\Controllers\Api\V1\MarketNewsController::class, 'show'])->name('api.v1.market-news.show');
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'me'])->name('api.v1.me');
 
