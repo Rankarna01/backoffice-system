@@ -113,4 +113,9 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->hasOne(\App\Domain\Billing\Models\Affiliate::class);
     }
+
+    public function journalTrades(): HasMany
+    {
+        return $this->hasMany(\App\Domain\Trading\Models\JournalTrade::class);
+    }
 }

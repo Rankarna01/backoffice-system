@@ -76,3 +76,26 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/orders', [\App\Http\Controllers\Api\V1\OrderController::class, 'store'])->name('api.v1.orders.store');
 });
 
+// Trading Journal (Manual & MT5) Endpoints
+Route::get('/trading/journal', [\App\Http\Controllers\Api\V1\TradingJournalController::class, 'index'])->name('api.v1.trading.journal.index');
+Route::get('/trading/journal/stats', [\App\Http\Controllers\Api\V1\TradingJournalController::class, 'stats'])->name('api.v1.trading.journal.stats');
+Route::post('/trading/journal', [\App\Http\Controllers\Api\V1\TradingJournalController::class, 'store'])->name('api.v1.trading.journal.store');
+Route::get('/trading/journal/{id}', [\App\Http\Controllers\Api\V1\TradingJournalController::class, 'show'])->name('api.v1.trading.journal.show');
+Route::put('/trading/journal/{id}', [\App\Http\Controllers\Api\V1\TradingJournalController::class, 'update'])->name('api.v1.trading.journal.update');
+Route::delete('/trading/journal/{id}', [\App\Http\Controllers\Api\V1\TradingJournalController::class, 'destroy'])->name('api.v1.trading.journal.destroy');
+
+// Market Live Chart & TradingView Embed Config
+Route::get('/market/chart/config', [\App\Http\Controllers\Api\V1\MarketChartConfigController::class, 'show'])->name('api.v1.market.chart.config');
+
+// Live Paper Trading Simulation Endpoints (with auth fallback for demo testing)
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/market/trading/account', [\App\Http\Controllers\Api\V1\TradingSimulatorController::class, 'getAccount'])->name('api.v1.market.trading.account');
+    Route::get('/market/trading/positions', [\App\Http\Controllers\Api\V1\TradingSimulatorController::class, 'getPositions'])->name('api.v1.market.trading.positions');
+    Route::post('/market/trading/order', [\App\Http\Controllers\Api\V1\TradingSimulatorController::class, 'openOrder'])->name('api.v1.market.trading.order');
+    Route::post('/market/trading/positions/{id}/close', [\App\Http\Controllers\Api\V1\TradingSimulatorController::class, 'closePosition'])->name('api.v1.market.trading.positions.close');
+    Route::put('/market/trading/positions/{id}/sltp', [\App\Http\Controllers\Api\V1\TradingSimulatorController::class, 'updateSlTp'])->name('api.v1.market.trading.positions.sltp');
+    Route::post('/market/trading/account/reset', [\App\Http\Controllers\Api\V1\TradingSimulatorController::class, 'resetAccount'])->name('api.v1.market.trading.account.reset');
+});
+
+
+

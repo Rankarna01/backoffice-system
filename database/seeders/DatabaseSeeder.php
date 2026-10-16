@@ -40,6 +40,7 @@ class DatabaseSeeder extends Seeder
             SettingsSeeder::class,
             NotificationSeeder::class,
             AnalyticsSeeder::class,
+            PaperTradingSeeder::class,
         ]);
     }
 }
