@@ -43,7 +43,13 @@ use App\Http\Controllers\Api\V1\QuizController;
 // Public Learning & Course Catalog Endpoints
 Route::get('/courses', [CourseController::class, 'index'])->name('api.v1.courses.index');
 Route::get('/courses/{slug}', [CourseController::class, 'show'])->name('api.v1.courses.show');
+
+// Learning Certificates Endpoints
 Route::get('/certificates/verify/{certificate_number}', [CertificateController::class, 'verify'])->name('api.v1.certificates.verify');
+Route::get('/certificates', [CertificateController::class, 'index'])->name('api.v1.certificates.index');
+Route::get('/certificates/stats', [CertificateController::class, 'stats'])->name('api.v1.certificates.stats');
+Route::post('/certificates/claim', [CertificateController::class, 'claim'])->name('api.v1.certificates.claim');
+Route::get('/certificates/{certificate_number}', [CertificateController::class, 'show'])->name('api.v1.certificates.show');
 
 // Market Signals Endpoints
 Route::get('/signals', [\App\Http\Controllers\Api\V1\SignalController::class, 'index'])->name('api.v1.signals.index');
@@ -96,6 +102,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/market/trading/positions/{id}/sltp', [\App\Http\Controllers\Api\V1\TradingSimulatorController::class, 'updateSlTp'])->name('api.v1.market.trading.positions.sltp');
     Route::post('/market/trading/account/reset', [\App\Http\Controllers\Api\V1\TradingSimulatorController::class, 'resetAccount'])->name('api.v1.market.trading.account.reset');
 });
+
+// Learning Bookmarks Endpoints
+Route::get('/bookmarks', [\App\Http\Controllers\Api\V1\BookmarkController::class, 'index'])->name('api.v1.bookmarks.index');
+Route::get('/bookmarks/stats', [\App\Http\Controllers\Api\V1\BookmarkController::class, 'stats'])->name('api.v1.bookmarks.stats');
+Route::post('/bookmarks', [\App\Http\Controllers\Api\V1\BookmarkController::class, 'store'])->name('api.v1.bookmarks.store');
+Route::put('/bookmarks/{id}', [\App\Http\Controllers\Api\V1\BookmarkController::class, 'update'])->name('api.v1.bookmarks.update');
+Route::delete('/bookmarks/{id}', [\App\Http\Controllers\Api\V1\BookmarkController::class, 'destroy'])->name('api.v1.bookmarks.destroy');
+
 
 
 

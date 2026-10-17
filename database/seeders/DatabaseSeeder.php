@@ -41,6 +41,7 @@ class DatabaseSeeder extends Seeder
             NotificationSeeder::class,
             AnalyticsSeeder::class,
             PaperTradingSeeder::class,
+            CertificateSeeder::class,
         ]);
     }
 }
