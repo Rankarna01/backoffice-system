@@ -79,6 +79,7 @@ Route::middleware('auth:sanctum')->group(function () {
     
     // Commerce
     Route::get('/orders', [\App\Http\Controllers\Api\V1\OrderController::class, 'index'])->name('api.v1.orders.index');
+    Route::get('/orders/stats', [\App\Http\Controllers\Api\V1\OrderController::class, 'stats'])->name('api.v1.orders.stats');
     Route::post('/orders', [\App\Http\Controllers\Api\V1\OrderController::class, 'store'])->name('api.v1.orders.store');
 });
 
@@ -109,6 +110,17 @@ Route::get('/bookmarks/stats', [\App\Http\Controllers\Api\V1\BookmarkController:
 Route::post('/bookmarks', [\App\Http\Controllers\Api\V1\BookmarkController::class, 'store'])->name('api.v1.bookmarks.store');
 Route::put('/bookmarks/{id}', [\App\Http\Controllers\Api\V1\BookmarkController::class, 'update'])->name('api.v1.bookmarks.update');
 Route::delete('/bookmarks/{id}', [\App\Http\Controllers\Api\V1\BookmarkController::class, 'destroy'])->name('api.v1.bookmarks.destroy');
+
+// Community & Forum Discussion Endpoints
+Route::get('/discussions', [\App\Http\Controllers\Api\V1\DiscussionController::class, 'index'])->name('api.v1.discussions.index');
+Route::get('/discussions/categories', [\App\Http\Controllers\Api\V1\DiscussionController::class, 'categories'])->name('api.v1.discussions.categories');
+Route::get('/discussions/{slug}', [\App\Http\Controllers\Api\V1\DiscussionController::class, 'show'])->name('api.v1.discussions.show');
+Route::post('/discussions', [\App\Http\Controllers\Api\V1\DiscussionController::class, 'store'])->name('api.v1.discussions.store');
+Route::post('/discussions/{id}/replies', [\App\Http\Controllers\Api\V1\DiscussionController::class, 'reply'])->name('api.v1.discussions.reply');
+Route::post('/discussions/{id}/like', [\App\Http\Controllers\Api\V1\DiscussionController::class, 'like'])->name('api.v1.discussions.like');
+Route::post('/discussions/replies/{id}/like', [\App\Http\Controllers\Api\V1\DiscussionController::class, 'likeReply'])->name('api.v1.discussions.replies.like');
+Route::post('/discussions/{id}/solution/{replyId}', [\App\Http\Controllers\Api\V1\DiscussionController::class, 'markSolution'])->name('api.v1.discussions.solution');
+
 
 
 

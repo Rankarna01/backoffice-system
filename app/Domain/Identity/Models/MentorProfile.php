@@ -13,7 +13,14 @@ class MentorProfile extends Model
 
     protected $fillable = [
         'user_id',
+        'avatar_url',
         'headline',
+        'experience_years',
+        'trading_style',
+        'win_rate',
+        'portfolio_url',
+        'certifications',
+        'portfolio_items',
         'bio',
         'expertise',
         'social_links',
@@ -24,6 +31,10 @@ class MentorProfile extends Model
     protected function casts(): array
     {
         return [
+            'experience_years' => 'integer',
+            'win_rate' => 'decimal:2',
+            'certifications' => 'array',
+            'portfolio_items' => 'array',
             'expertise' => 'array',
             'social_links' => 'array',
             'is_featured' => 'boolean',
