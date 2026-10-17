@@ -147,8 +147,15 @@ class CertificatesTable
                         'record' => $record,
                     ])),
 
+                Action::make('print_certificate')
+                    ->label('Cetak / Download PDF')
+                    ->icon('heroicon-o-printer')
+                    ->color('warning')
+                    ->url(fn (Certificate $record): string => route('certificates.web.view', $record->certificate_number))
+                    ->openUrlInNewTab(),
+
                 Action::make('verify_link')
-                    ->label('Halaman Verifikasi')
+                    ->label('Verifikasi Publik')
                     ->icon('heroicon-o-arrow-top-right-on-square')
                     ->color('gray')
                     ->url(fn (Certificate $record): string => url('/verify/' . $record->certificate_number))
