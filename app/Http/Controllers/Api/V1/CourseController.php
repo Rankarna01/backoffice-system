@@ -125,7 +125,7 @@ class CourseController extends Controller
     public function show(Request $request, string $slug): JsonResponse
     {
         $course = Course::with([
-            'mentor:id,name,email',
+            'mentor.mentorProfile',
             'category:id,name,slug',
             'modules' => function ($q) {
                 $q->where('is_published', true)->orderBy('sort_order', 'asc');
@@ -181,9 +181,20 @@ class CourseController extends Controller
             'mentor' => [
                 'id' => $course->mentor?->id,
                 'name' => $course->mentor?->name ?? 'TradingEdu Specialist',
-                'title' => 'Senior Trading Specialist & Analyst',
-                'bio' => 'Praktisi trader independen dengan jam terbang lebih dari 8 tahun dalam menganalisis pasar Forex dan Likuiditas Pasar Finansial.',
-                'avatar_url' => 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&auto=format&fit=crop&q=80',
+                'title' => $course->mentor?->mentorProfile?->headline ?? 'Senior Trading Specialist & Analyst',
+                'bio' => $course->mentor?->mentorProfile?->bio ?? 'Praktisi trader profesional dengan jam terbang tinggi di pasar finansial global.',
+                'avatar_url' => $course->mentor?->mentorProfile?->avatar_url
+                    ? (str_starts_with($course->mentor->mentorProfile->avatar_url, 'http')
+                        ? $course->mentor->mentorProfile->avatar_url
+                        : asset('storage/' . $course->mentor->mentorProfile->avatar_url))
+                    : 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&auto=format&fit=crop&q=80',
+                'experience_years' => $course->mentor?->mentorProfile?->experience_years,
+                'trading_style' => $course->mentor?->mentorProfile?->trading_style,
+                'win_rate' => $course->mentor?->mentorProfile?->win_rate,
+                'portfolio_url' => $course->mentor?->mentorProfile?->portfolio_url,
+                'certifications' => $course->mentor?->mentorProfile?->certifications ?? [],
+                'portfolio_items' => $course->mentor?->mentorProfile?->portfolio_items ?? [],
+                'social_links' => $course->mentor?->mentorProfile?->social_links ?? [],
             ],
             'category' => $course->category ? [
                 'id' => $course->category->id,

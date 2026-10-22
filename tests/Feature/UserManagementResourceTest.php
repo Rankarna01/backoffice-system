@@ -80,6 +80,11 @@ class UserManagementResourceTest extends TestCase
         $response->assertSuccessful();
         $response->assertSee('Alex Wijaya');
         $response->assertSee('Sarah Tan');
+        $response->assertSee('Foto');
+        $response->assertSee('Pengalaman');
+        $response->assertSee('Gaya Trading');
+        $response->assertSee('Win Rate / ROI');
+        $response->assertSee('Portfolio Live');
     }
 
     public function test_admin_can_access_mentor_create_page(): void
@@ -87,6 +92,9 @@ class UserManagementResourceTest extends TestCase
         $admin = User::where('email', 'admin@tradingedu.com')->first();
         $response = $this->actingAs($admin)->get('/admin/mentors/create');
         $response->assertSuccessful();
+        $response->assertSee('Foto Profil Mentor');
+        $response->assertSee('Metrik Portofolio &amp; Rekam Jejak Trading', false);
+        $response->assertSee('Galeri Portofolio &amp; Bukti Analisa', false);
     }
 
     public function test_admin_can_access_roles_permissions_resource(): void
