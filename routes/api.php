@@ -68,6 +68,9 @@ Route::get('/market-news/{slug}', [\App\Http\Controllers\Api\V1\MarketNewsContro
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'me'])->name('api.v1.me');
+    Route::put('/profile', [\App\Http\Controllers\Api\V1\ProfileController::class, 'update'])->name('api.v1.profile.update');
+    Route::put('/profile/email', [\App\Http\Controllers\Api\V1\ProfileController::class, 'updateEmail'])->name('api.v1.profile.email');
+    Route::put('/profile/password', [\App\Http\Controllers\Api\V1\ProfileController::class, 'updatePassword'])->name('api.v1.profile.password');
 
     // Authenticated Student Learning Endpoints
     Route::get('/my-courses', [MyCourseController::class, 'index'])->name('api.v1.my-courses.index');
@@ -120,6 +123,13 @@ Route::post('/discussions/{id}/replies', [\App\Http\Controllers\Api\V1\Discussio
 Route::post('/discussions/{id}/like', [\App\Http\Controllers\Api\V1\DiscussionController::class, 'like'])->name('api.v1.discussions.like');
 Route::post('/discussions/replies/{id}/like', [\App\Http\Controllers\Api\V1\DiscussionController::class, 'likeReply'])->name('api.v1.discussions.replies.like');
 Route::post('/discussions/{id}/solution/{replyId}', [\App\Http\Controllers\Api\V1\DiscussionController::class, 'markSolution'])->name('api.v1.discussions.solution');
+
+// Trading Tools & Calculators Endpoints
+Route::get('/trading/tools/rates', [\App\Http\Controllers\Api\V1\TradingToolController::class, 'rates'])->name('api.v1.trading.tools.rates');
+Route::post('/trading/tools/calculate-pip', [\App\Http\Controllers\Api\V1\TradingToolController::class, 'calculatePip'])->name('api.v1.trading.tools.calculate-pip');
+Route::post('/trading/tools/calculate-lot', [\App\Http\Controllers\Api\V1\TradingToolController::class, 'calculateLot'])->name('api.v1.trading.tools.calculate-lot');
+Route::post('/trading/tools/calculate-risk', [\App\Http\Controllers\Api\V1\TradingToolController::class, 'calculateRisk'])->name('api.v1.trading.tools.calculate-risk');
+Route::post('/trading/tools/calculate-compounding', [\App\Http\Controllers\Api\V1\TradingToolController::class, 'calculateCompounding'])->name('api.v1.trading.tools.calculate-compounding');
 
 
 
