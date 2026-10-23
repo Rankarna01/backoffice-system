@@ -3,8 +3,11 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/admin');
 });
+
+// Redirect /login to Filament Admin Panel login
+Route::redirect('/login', '/admin/login')->name('login');
 
 // Direct /api route alias without v1 prefix
 Route::prefix('api')->group(function () {
