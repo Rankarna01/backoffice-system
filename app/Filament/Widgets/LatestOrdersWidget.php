@@ -4,6 +4,7 @@ namespace App\Filament\Widgets;
 
 use App\Domain\Billing\Enums\OrderStatus;
 use App\Domain\Billing\Models\Order;
+use Filament\Actions\Action;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
@@ -74,14 +75,14 @@ class LatestOrdersWidget extends BaseWidget
             ->paginated([5])
             ->defaultPaginationPageOption(5)
             ->actions([
-                Tables\Actions\Action::make('view')
+                Action::make('view')
                     ->label('Detail')
                     ->icon('heroicon-m-eye')
                     ->color('gray')
                     ->url(fn (Order $record): string => "/admin/orders/{$record->id}/edit"),
             ])
             ->headerActions([
-                Tables\Actions\Action::make('view_all')
+                Action::make('view_all')
                     ->label('Buka Semua Pesanan')
                     ->icon('heroicon-m-arrow-top-right-on-square')
                     ->color('primary')
