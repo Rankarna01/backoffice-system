@@ -7,7 +7,7 @@ use App\Filament\Resources\Billing\Orders\Pages\EditOrder;
 use App\Filament\Resources\Billing\Orders\Pages\ListOrders;
 use App\Filament\Resources\Billing\Orders\Schemas\OrderForm;
 use App\Filament\Resources\Billing\Orders\Tables\OrdersTable;
-use App\Models\Billing\Order;
+use App\Domain\Billing\Models\Order;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
