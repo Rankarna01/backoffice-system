@@ -37,6 +37,34 @@ class CourseController extends Controller
             $query->where('access_type', $request->access_type);
         }
 
+        // Filter by duration
+        if ($request->filled('duration') && $request->duration !== 'all') {
+            switch ($request->duration) {
+                case 'short':
+                    $query->where('duration_seconds', '<', 7200);
+                    break;
+                case 'medium':
+                    $query->whereBetween('duration_seconds', [7200, 18000]);
+                    break;
+                case 'long':
+                    $query->where('duration_seconds', '>', 18000);
+                    break;
+            }
+        }
+
+        // Filter by price (free vs paid)
+        if ($request->filled('price') && $request->price !== 'all') {
+            if ($request->price === 'free') {
+                $query->where(function ($q) {
+                    $q->where('access_type', 'free')->orWhere('price', '<=', 0);
+                });
+            } elseif ($request->price === 'paid') {
+                $query->where(function ($q) {
+                    $q->where('access_type', '!=', 'free')->where('price', '>', 0);
+                });
+            }
+        }
+
         // Search in title, subtitle, description
         if ($request->filled('search')) {
             $search = '%' . $request->search . '%';
@@ -71,9 +99,31 @@ class CourseController extends Controller
         $perPage = min((int) $request->get('per_page', 9), 30);
         $paginated = $query->paginate($perPage);
 
-        $defaultThumbnail = 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&auto=format&fit=crop&q=80';
+        $curatedThumbnails = [
+            'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&auto=format&fit=crop&q=80',
+            'https://images.unsplash.com/photo-1642543492481-44e81e3914a7?w=800&auto=format&fit=crop&q=80',
+            'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80',
+            'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&auto=format&fit=crop&q=80',
+            'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800&auto=format&fit=crop&q=80',
+            'https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?w=800&auto=format&fit=crop&q=80',
+            'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800&auto=format&fit=crop&q=80',
+            'https://images.unsplash.com/photo-1535320903710-d993d3d77d29?w=800&auto=format&fit=crop&q=80',
+            'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format&fit=crop&q=80',
+        ];
 
-        $items = collect($paginated->items())->map(function (Course $course) use ($defaultThumbnail) {
+        $curatedAvatars = [
+            'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80',
+            'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&auto=format&fit=crop&q=80',
+            'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=120&auto=format&fit=crop&q=80',
+            'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&auto=format&fit=crop&q=80',
+            'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=120&auto=format&fit=crop&q=80',
+            'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&auto=format&fit=crop&q=80',
+        ];
+
+        $items = collect($paginated->items())->map(function (Course $course) use ($curatedThumbnails, $curatedAvatars) {
+            $thumbIndex = ($course->id - 1) % count($curatedThumbnails);
+            $avatarIndex = ($course->id - 1) % count($curatedAvatars);
+
             return [
                 'id' => $course->id,
                 'uuid' => $course->uuid,
@@ -85,7 +135,7 @@ class CourseController extends Controller
                 'price' => (float) $course->price,
                 'compare_at_price' => $course->compare_at_price ? (float) $course->compare_at_price : null,
                 'currency' => $course->currency ?? 'IDR',
-                'thumbnail_url' => $defaultThumbnail,
+                'thumbnail_url' => $curatedThumbnails[$thumbIndex],
                 'duration_seconds' => $course->duration_seconds,
                 'lessons_count' => $course->lessons_count,
                 'students_count' => $course->students_count,
@@ -95,7 +145,7 @@ class CourseController extends Controller
                     'id' => $course->mentor?->id,
                     'name' => $course->mentor?->name ?? 'TradingEdu Mentor',
                     'title' => 'Senior Trading Specialist',
-                    'avatar_url' => 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80',
+                    'avatar_url' => $curatedAvatars[$avatarIndex],
                 ],
                 'category' => $course->category ? [
                     'id' => $course->category->id,
