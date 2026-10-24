@@ -84,6 +84,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/orders', [\App\Http\Controllers\Api\V1\OrderController::class, 'index'])->name('api.v1.orders.index');
     Route::get('/orders/stats', [\App\Http\Controllers\Api\V1\OrderController::class, 'stats'])->name('api.v1.orders.stats');
     Route::post('/orders', [\App\Http\Controllers\Api\V1\OrderController::class, 'store'])->name('api.v1.orders.store');
+
+    // Notifications (In-App & Broadcasts)
+    Route::get('/notifications', [\App\Http\Controllers\Api\V1\NotificationController::class, 'index'])->name('api.v1.notifications.index');
+    Route::put('/notifications/{id}/read', [\App\Http\Controllers\Api\V1\NotificationController::class, 'markAsRead'])->name('api.v1.notifications.read');
+    Route::put('/notifications/read-all', [\App\Http\Controllers\Api\V1\NotificationController::class, 'markAllAsRead'])->name('api.v1.notifications.read-all');
+
+    // Analytics Overview
+    Route::get('/analytics/overview', [\App\Http\Controllers\Api\V1\AnalyticsController::class, 'overview'])->name('api.v1.analytics.overview');
 });
 
 // Trading Journal (Manual & MT5) Endpoints
