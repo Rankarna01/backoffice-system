@@ -19,19 +19,19 @@ class SubscriptionResource extends Resource
 {
     protected static ?string $model = Subscription::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'bx-package';
+    protected static string|BackedEnum|null $navigationIcon = 'bx-user-check';
 
     protected static \UnitEnum|string|null $navigationGroup = 'MONETIZATION';
 
-    protected static ?string $navigationLabel = 'Subscription';
+    protected static ?string $navigationLabel = 'Subscriptions';
 
     protected static ?string $modelLabel = 'Langganan Member';
 
-    protected static ?string $pluralModelLabel = 'Langganan & Paket';
+    protected static ?string $pluralModelLabel = 'Langganan Member';
 
     protected static ?string $recordTitleAttribute = 'id';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 2;
 
     public static function getNavigationBadge(): ?string
     {

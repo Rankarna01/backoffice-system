@@ -32,11 +32,96 @@ class MonetizationSeeder extends Seeder
         $mentorAlex = User::where('email', 'alex@tradingedu.com')->first() ?: $admin;
         $course = Course::first();
 
-        // 1. Plans
+        // 1. Plans (3 Tiers: Free, Standard, Pro)
+        $planFree = Plan::updateOrCreate(
+            ['slug' => 'starter-free'],
+            [
+                'name' => 'Paket Free (Starter)',
+                'tier' => 'free',
+                'badge' => 'Starter Free',
+                'description' => 'Akses materi dasar untuk memulai perjalanan trading. Pahami terminologi pasar keuangan, manajemen risiko dasar, dan akses forum publik.',
+                'type' => 'lifetime',
+                'duration_days' => null,
+                'price' => 0,
+                'compare_at_price' => null,
+                'currency' => 'IDR',
+                'features' => [
+                    'Akses Modul Pengantar Pasar Finansial',
+                    'Akses Video Edukasi & Dokumen Publik',
+                    'Komunitas Diskusi & Forum Tanya Jawab',
+                    'Kuota 20 Chat AI Trading Assistant/Bulan',
+                    'Akses Selamanya Tanpa Biaya',
+                ],
+                'includes_all_courses' => false,
+                'includes_signals' => false,
+                'ai_monthly_quota' => 20,
+                'is_active' => true,
+                'sort_order' => 1,
+            ]
+        );
+
+        $planStandard = Plan::updateOrCreate(
+            ['slug' => 'standard-trader'],
+            [
+                'name' => 'Paket Standard Trader',
+                'tier' => 'standard',
+                'badge' => 'Paling Populer',
+                'description' => 'Pilihan ideal untuk trader aktif. Kuasai analisa teknikal candlestick, price action, indikator penting, dan dapatkan sinyal pasar harian.',
+                'type' => 'duration',
+                'duration_days' => 30,
+                'price' => 199000,
+                'compare_at_price' => 399000,
+                'currency' => 'IDR',
+                'features' => [
+                    'Semua Fitur Paket Free',
+                    'Akses 5 Kursus Inti Teknikal & Price Action',
+                    'Sinyal Trading Harian Pasangan Mata Uang Utama',
+                    'Sesi Webinar Live Interaktif Bulanan',
+                    'Template Jurnal Trading & Kalkulator Lot',
+                    'Kuota 100 Chat AI Assistant/Bulan',
+                ],
+                'includes_all_courses' => false,
+                'includes_signals' => true,
+                'ai_monthly_quota' => 100,
+                'is_active' => true,
+                'sort_order' => 2,
+            ]
+        );
+
+        $planPro = Plan::updateOrCreate(
+            ['slug' => 'pro-vip-trader'],
+            [
+                'name' => 'Paket Pro VIP All-Access',
+                'tier' => 'pro',
+                'badge' => 'VIP Recommended',
+                'description' => 'Akses tak terbatas ke seluruh ekosistem TradingEdu. Seluruh materi kursus, sinyal presisi tinggi (Forex, Gold SMC, Kripto), dan bimbingan master trader.',
+                'type' => 'duration',
+                'duration_days' => 30,
+                'price' => 499000,
+                'compare_at_price' => 999000,
+                'currency' => 'IDR',
+                'features' => [
+                    'Akses ke Seluruh Kursus Tanpa Batas (All-Access Pass)',
+                    'Sinyal VIP Real-time Forex, Gold SMC & Kripto Futures',
+                    'Sesi Live Trading & Evaluasi Market Mingguan',
+                    'Review Jurnal Trading 1-on-1 dengan Master Mentor',
+                    'Unlimited Tanya-Jawab AI Assistant',
+                    'Sertifikat Kelulusan Resmi Digital Terverifikasi',
+                ],
+                'includes_all_courses' => true,
+                'includes_signals' => true,
+                'ai_monthly_quota' => 500,
+                'is_active' => true,
+                'sort_order' => 3,
+            ]
+        );
+
         $planMonthly = Plan::updateOrCreate(
             ['slug' => 'pro-trader-monthly'],
             [
                 'name' => 'Pro Trader Bulanan',
+                'tier' => 'pro',
+                'badge' => 'Pro Bulanan',
                 'description' => 'Akses penuh ke semua sinyal trading harian, live webinar mingguan, dan seluruh materi kursus fundamental.',
                 'type' => 'duration',
                 'duration_days' => 30,
@@ -54,7 +139,7 @@ class MonetizationSeeder extends Seeder
                 'includes_signals' => true,
                 'ai_monthly_quota' => 100,
                 'is_active' => true,
-                'sort_order' => 1,
+                'sort_order' => 4,
             ]
         );
 
@@ -62,6 +147,8 @@ class MonetizationSeeder extends Seeder
             ['slug' => 'pro-trader-annual'],
             [
                 'name' => 'Pro Trader Tahunan (Best Value)',
+                'tier' => 'pro',
+                'badge' => 'Hemat 33%',
                 'description' => 'Paket langganan paling hemat dengan benefit tambahan sesi 1-on-1 review bersama master mentor.',
                 'type' => 'duration',
                 'duration_days' => 365,
@@ -79,7 +166,7 @@ class MonetizationSeeder extends Seeder
                 'includes_signals' => true,
                 'ai_monthly_quota' => 500,
                 'is_active' => true,
-                'sort_order' => 2,
+                'sort_order' => 5,
             ]
         );
 
@@ -87,6 +174,8 @@ class MonetizationSeeder extends Seeder
             ['slug' => 'vip-lifetime-pass'],
             [
                 'name' => 'VIP Lifetime Pass',
+                'tier' => 'pro',
+                'badge' => 'Lifetime Pass',
                 'description' => 'Akses seumur hidup ke seluruh ekosistem TradingEdu termasuk seluruh rilis materi masa depan.',
                 'type' => 'lifetime',
                 'duration_days' => null,
@@ -103,7 +192,7 @@ class MonetizationSeeder extends Seeder
                 'includes_signals' => true,
                 'ai_monthly_quota' => 9999,
                 'is_active' => true,
-                'sort_order' => 3,
+                'sort_order' => 6,
             ]
         );
 

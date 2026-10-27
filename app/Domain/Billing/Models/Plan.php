@@ -19,6 +19,8 @@ class Plan extends Model
     protected $fillable = [
         'name',
         'slug',
+        'tier',
+        'badge',
         'description',
         'type',
         'duration_days',
@@ -54,7 +56,57 @@ class Plan extends Model
             if (empty($plan->slug)) {
                 $plan->slug = Str::slug($plan->name);
             }
+            if (empty($plan->tier)) {
+                $plan->tier = $plan->determineTier();
+            }
         });
+    }
+
+    public function determineTier(): string
+    {
+        if ($this->price <= 0 || str_contains(strtolower($this->slug ?? $this->name ?? ''), 'free')) {
+            return 'free';
+        }
+        if (str_contains(strtolower($this->slug ?? $this->name ?? ''), 'standard') || (float) $this->price < 300000) {
+            return 'standard';
+        }
+        return 'pro';
+    }
+
+    public function getTierAttribute(): string
+    {
+        if (! empty($this->attributes['tier'])) {
+            return $this->attributes['tier'];
+        }
+        return $this->determineTier();
+    }
+
+    public function getBadgeAttribute(): ?string
+    {
+        if (! empty($this->attributes['badge'])) {
+            return $this->attributes['badge'];
+        }
+        return match ($this->tier) {
+            'free' => 'Starter Choice',
+            'standard' => 'Paling Populer',
+            'pro' => 'VIP Recommended',
+            default => null,
+        };
+    }
+
+    public function isFree(): bool
+    {
+        return $this->tier === 'free' || (float) $this->price <= 0;
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+
+    public function scopeByTier($query, string $tier)
+    {
+        return $query->where('tier', $tier);
     }
 
     public function subscriptions(): HasMany
