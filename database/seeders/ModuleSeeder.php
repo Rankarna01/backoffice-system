@@ -63,44 +63,6 @@ class ModuleSeeder extends Seeder
             }
         }
 
-        // 2. Modules for Forex Course
-        if ($courseForex) {
-            $forexModules = [
-                [
-                    'title' => 'Bab 1: Pengenalan Pasar Forex & Karakteristik Pasangan Mata Uang',
-                    'description' => 'Memahami pairs major, minor, dan exotic serta karakteristik sesi London dan New York.',
-                    'sort_order' => 1,
-                    'is_published' => true,
-                ],
-                [
-                    'title' => 'Bab 2: Kalkulasi Pip, Lot, Margin, dan Leverage',
-                    'description' => 'Rumus perhitungan lot size dan penggunaan leverage yang bijak agar modal terlindungi.',
-                    'document_file' => 'modules/documents/forex-lot-calculator-journal.xlsx',
-                    'sort_order' => 2,
-                    'is_published' => true,
-                ],
-                [
-                    'title' => 'Bab 3: Rule Manajemen Resiko 1% & Risk-Reward Ratio',
-                    'description' => 'Membangun disiplin stop loss dan target profit minimum 1:2 untuk pertumbuhan portofolio.',
-                    'sort_order' => 3,
-                    'is_published' => true,
-                ],
-                [
-                    'title' => 'Bab 4: Psikologi Trading & Jurnal Evaluasi',
-                    'description' => 'Mengontrol emosi trading, menghindari overtrading, dan membuat rutinitas jurnal berkala.',
-                    'sort_order' => 4,
-                    'is_published' => true,
-                ],
-            ];
-
-            foreach ($forexModules as $mod) {
-                Module::updateOrCreate(
-                    ['course_id' => $courseForex->id, 'title' => $mod['title']],
-                    $mod
-                );
-            }
-        }
-
         // 3. Modules for Gold Course
         if ($courseGold) {
             $goldModules = [

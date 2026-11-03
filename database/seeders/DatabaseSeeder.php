@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             ModuleSeeder::class,
             LessonSeeder::class,
             QuizSeeder::class,
+            ForexCourseSeeder::class,
             MediaAssetSeeder::class,
             SignalSeeder::class,
             MarketOutlookSeeder::class,

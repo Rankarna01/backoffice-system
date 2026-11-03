@@ -57,6 +57,25 @@ class UserSeeder extends Seeder
             $operationalAdmin->syncRoles([$adminRole]);
         }
 
+        // 2b. Second Admin (Marvora)
+        $marvoraAdmin = User::updateOrCreate(
+            ['email' => 'admin@marvora.com'],
+            [
+                'uuid' => (string) Str::uuid(),
+                'name' => 'Admin Marvora',
+                'password' => Hash::make('password123'),
+                'email_verified_at' => now(),
+                'phone' => '+628133333333',
+                'timezone' => 'Asia/Jakarta',
+                'locale' => 'id',
+                'status' => 'active',
+                'terms_accepted_version' => '1.0',
+            ]
+        );
+        if ($superAdminRole) {
+            $marvoraAdmin->syncRoles([$superAdminRole]);
+        }
+
         // 3. Customer / Member Accounts
         $customer1 = User::updateOrCreate(
             ['email' => 'customer@tradingedu.com'],

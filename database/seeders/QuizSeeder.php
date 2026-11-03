@@ -227,67 +227,6 @@ class QuizSeeder extends Seeder
 
             $this->syncQuestionsAndOptions($finalQuiz, $questionsFinal);
         }
-
-        // -------------------------------------------------------------
-        // 2. Quizzes for Forex Basics Course
-        // -------------------------------------------------------------
-        if ($courseForex) {
-            $forexMod1 = Module::where('course_id', $courseForex->id)
-                ->where('title', 'like', '%Terminologi Dasar%')
-                ->first();
-
-            if ($forexMod1) {
-                $quizForex1 = Quiz::updateOrCreate(
-                    [
-                        'course_id' => $courseForex->id,
-                        'title' => 'Kuis Dasar: Kalkulasi Pip, Lot & Leverage Forex',
-                    ],
-                    [
-                        'module_id' => $forexMod1->id,
-                        'instructions' => "Kuis singkat untuk memvalidasi pemahaman Anda mengenai perhitungan pip, penggunaan lot size, dan manajemen leverage trading.\n\n- Nilai kelulusan: 70%\n- Waktu pengerjaan: 10 menit.",
-                        'passing_score' => 70,
-                        'time_limit_minutes' => 10,
-                        'max_attempts' => 10,
-                        'shuffle_questions' => false,
-                        'shuffle_options' => true,
-                        'show_answers' => true,
-                        'is_required' => true,
-                        'status' => 'published',
-                    ]
-                );
-
-                $questionsForex1 = [
-                    [
-                        'question' => 'Jika pasangan mata uang GBP/USD bergerak dari 1.2500 ke 1.2550, berapa pips pergerakan harga tersebut?',
-                        'type' => 'single',
-                        'points' => 50,
-                        'sort_order' => 1,
-                        'explanation' => '1.2550 - 1.2500 = 0.0050. Pada pasangan mata uang 4 desimal, 1 pip adalah 0.0001, sehingga 0.0050 sama dengan 50 pips.',
-                        'options' => [
-                            ['label' => '50 Pips', 'is_correct' => true, 'sort_order' => 1],
-                            ['label' => '5 Pips', 'is_correct' => false, 'sort_order' => 2],
-                            ['label' => '500 Pips', 'is_correct' => false, 'sort_order' => 3],
-                            ['label' => '0.5 Pips', 'is_correct' => false, 'sort_order' => 4],
-                        ],
-                    ],
-                    [
-                        'question' => 'Apa dampak dari penggunaan leverage yang lebih tinggi (misalnya 1:500 dibandingkan 1:50)?',
-                        'type' => 'single',
-                        'points' => 50,
-                        'sort_order' => 2,
-                        'explanation' => 'Leverage tinggi memperkecil jaminan margin yang dibutuhkan untuk membuka posisi, namun memperbesar risiko kerugian yang cepat jika tidak disertai manajemen lot dan stop loss yang ketat.',
-                        'options' => [
-                            ['label' => 'Menurunkan modal margin yang dibutuhkan untuk membuka posisi, namun memperbesar risiko jika tanpa kontrol lot.', 'is_correct' => true, 'sort_order' => 1],
-                            ['label' => 'Membuat harga mata uang bergerak lebih cepat di chart trading.', 'is_correct' => false, 'sort_order' => 2],
-                            ['label' => 'Menghilangkan kemungkinan terkena stop loss oleh broker.', 'is_correct' => false, 'sort_order' => 3],
-                            ['label' => 'Mengurangi spread bid-ask menjadi nol secara permanen.', 'is_correct' => false, 'sort_order' => 4],
-                        ],
-                    ],
-                ];
-
-                $this->syncQuestionsAndOptions($quizForex1, $questionsForex1);
-            }
-        }
     }
 
     /**
